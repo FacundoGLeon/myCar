@@ -30,3 +30,11 @@ $routes->get('login', 'Auth::login');
 $routes->group('admin', ['filter' => 'adminauth'], static function ($routes) {
     $routes->get('dashboard', 'AdminController::index');
 });
+
+// =======================================================
+// RUTAS DEL CLIENTE (Protegidas por el Filtro)
+// =======================================================
+$routes->group('reserva', ['filter' => 'clienteauth'], static function ($routes) {
+    $routes->get('nuevo/(:num)', 'Reserva::nuevo/$1');
+    $routes->post('guardar', 'Reserva::guardar');
+});

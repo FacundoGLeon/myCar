@@ -18,12 +18,14 @@ class Home extends BaseController
         // 2. Obtenemos TODAS las categorías para poder dibujar los botones en la vista
         $categorias = $categoriaModel->findAll();
         
-        // 3. Optimizamos la búsqueda: Si hay filtro, buscamos solo esos. Si no, traemos todos.
+        // 3. Optimizamos la búsqueda: Si hay filtro, buscamos solo esos. Si no, traemos todos. (Con paginación)
         if ($categoriaId) {
-            $vehiculos = $vehiculoModel->where('categoria_id', $categoriaId)->findAll();
+            $vehiculos = $vehiculoModel->where('categoria_id', $categoriaId)->paginate(6);
         } else {
-            $vehiculos = $vehiculoModel->findAll();
+            $vehiculos = $vehiculoModel->paginate(6);
         }
+        
+        $pager = $vehiculoModel->pager;
 
         // Agrupamos los vehículos por categoría para mandarlos ordenados a la vista
         $catalogo = [];
@@ -49,7 +51,8 @@ class Home extends BaseController
             'titulo' => 'Catálogo - MyCar',
             'catalogo' => $catalogo,
             'categorias' => $categorias, 
-            'categoriaSeleccionada' => $categoriaId // Para pintar el botón seleccionado en la vista
+            'categoriaSeleccionada' => $categoriaId, // Para pintar el botón seleccionado en la vista
+            'pager' => $pager
         ];
 
         return view('home', $data);

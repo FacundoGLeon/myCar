@@ -7,6 +7,7 @@
 $categoriaSeleccionada = $categoriaSeleccionada ?? null; 
 $categorias = $categorias ?? [];
 $catalogo = $catalogo ?? [];
+$pager = $pager ?? null;
 ?>
 
 <!-- Banner de Bienvenida -->
@@ -89,6 +90,13 @@ $catalogo = $catalogo ?? [];
         </div>
     <?php endif; ?>
 <?php endforeach; ?>
+
+<!-- Paginación -->
+<?php if (isset($pager) && !empty($catalogo)): ?>
+    <div class="d-flex justify-content-center mt-5">
+        <?= $pager->links() ?>
+    </div>
+<?php endif; ?>
 
 <?php if (empty($catalogo)): ?>
     <div class="alert alert-info text-center mt-5">
