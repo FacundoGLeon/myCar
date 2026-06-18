@@ -75,7 +75,7 @@
                     </a>
                 </li>
                 <li class="nav-item">
-                    <a href="#" class="nav-link">
+                    <a href="<?= base_url('admin/vehiculos') ?>" class="nav-link">
                         <i class="bi bi-car-front me-2"></i> Vehículos
                     </a>
                 </li>

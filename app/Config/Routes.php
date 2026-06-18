@@ -27,6 +27,12 @@ $routes->get('login', 'Auth::login');
 // =======================================================
 // RUTAS DEL ADMINISTRADOR (Protegidas por el Filtro)
 // =======================================================
+
+// app/Config/Routes.php (Al final del archivo)
 $routes->group('admin', ['filter' => 'adminauth'], static function ($routes) {
     $routes->get('dashboard', 'AdminController::index');
+    $routes->get('vehiculos', 'AdminController::vehiculos');
+    $routes->get('vehiculos/nuevo', 'AdminController::nuevo');
+    $routes->post('vehiculos/guardar', 'AdminController::guardar');
 });
+
