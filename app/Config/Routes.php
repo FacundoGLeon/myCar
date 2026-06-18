@@ -23,3 +23,10 @@ $routes->get('catalogo', 'Home::index');
 // Rutas de Autenticación
 $routes->get('login', 'Auth::login');
 // ... existing code ...
+
+// =======================================================
+// RUTAS DEL ADMINISTRADOR (Protegidas por el Filtro)
+// =======================================================
+$routes->group('admin', ['filter' => 'adminauth'], static function ($routes) {
+    $routes->get('dashboard', 'AdminController::index');
+});
