@@ -42,7 +42,7 @@
                                 <td class="ps-4">
                                     <div class="d-flex align-items-center">
                                         <!-- Miniatura de la foto -->
-                                        <img src="<?= base_url('assets/img/' . $v['imagen_url']) ?>" 
+                                        <img src="<?= base_url('public/assets/img/' . $v['imagen_url']) ?>" 
                                              class="rounded-3 me-3" 
                                              style="width: 60px; height: 40px; object-fit: cover;"
                                              onerror="this.src='https://via.placeholder.com/60x40?text=Auto'">

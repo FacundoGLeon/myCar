@@ -4,6 +4,7 @@ namespace App\Controllers;
 
 use App\Models\VehiculoModel;
 use App\Models\CategoriaModel;
+use App\Controllers\BaseController;
 
 class AdminController extends BaseController
 {
@@ -23,16 +24,14 @@ class AdminController extends BaseController
     {
         $vehiculoModel = new VehiculoModel();
         
-        // Hacemos un join manual con la tabla categorías para traer el "nombre" de la categoría y no solo el número (ID)
-        // El 'vehiculos.*' trae todos los campos del auto, y 'categorias.nombre as categoria_nombre' trae la marca.
         $vehiculos = $vehiculoModel->select('vehiculos.*, categorias.nombre as categoria_nombre')
                                    ->join('categorias', 'categorias.id = vehiculos.categoria_id')
-                                   ->paginate(10); // Trae 10 registros por página
+                                   ->paginate(10);
 
         $data = [
             'titulo'    => 'Gestión de Vehículos - Admin MyCar',
             'vehiculos' => $vehiculos,
-            'pager'     => $vehiculoModel->pager // Esto es lo que crea los botones (Anterior/Siguiente)
+            'pager'     => $vehiculoModel->pager
         ];
 
         return view('admin/vehiculos/index', $data);
@@ -52,20 +51,75 @@ class AdminController extends BaseController
     public function guardar()
     {
         $vehiculoModel = new VehiculoModel();
-        
-        // 1. Capturar el archivo
-        $imagen = $this->request->getFile('imagen');
-        $nombreImagen = 'default.jpg'; // Valor por defecto
 
-        // 2. Validar si se subió correctamente
-        if ($imagen->isValid() && !$imagen->hasMoved()) {
-            // Generar un nombre único para evitar que se pisen los archivos
-            $nombreImagen = $imagen->getRandomName();
-            // Mover a public/assets/img/
-            $imagen->move(ROOTPATH . 'public/assets/img/', $nombreImagen);
+        // 1. Definir reglas
+        $reglas = [
+            'marca'        => 'required|min_length[2]',
+            'modelo'       => 'required',
+            'anio'         => 'required|numeric|exact_length[4]',
+            'motor'        => 'required',
+            'plazas'       => 'required|numeric|greater_than[0]',
+            'precio_dia'   => 'required|decimal',
+            'kilometraje'  => 'required|numeric',
+            'descripcion'  => 'required|min_length[10]',
+            'categoria_id' => 'required',
+            'imagen'       => 'uploaded[imagen]|is_image[imagen]|mime_in[imagen,image/jpg,image/jpeg,image/png]|max_size[imagen,2048]',
+        ];
+
+        // 2. Definir mensajes personalizados en español
+        $mensajes = [
+            'marca' => [
+                'required'   => 'El campo marca es obligatorio.',
+                'min_length' => 'La marca debe tener al menos 2 caracteres.'
+            ],
+            'modelo' => [
+                'required'   => 'El campo modelo es obligatorio.'
+            ],
+            'anio' => [
+                'required'     => 'El año es obligatorio.',
+                'numeric'      => 'El año debe ser un número.',
+                'exact_length' => 'El año debe tener 4 dígitos.'
+            ],
+            'plazas' => [
+                'required'     => 'Indique la cantidad de plazas.',
+                'numeric'      => 'Debe ingresar un valor numérico.',
+                'greater_than' => 'Debe haber al menos 1 plaza.'
+            ],
+            'motor' => [
+                'required' => 'El tipo de motor es obligatorio.'
+            ],
+            'kilometraje' => [
+                'required' => 'El kilometraje es obligatorio.',
+                'numeric'  => 'El kilometraje debe ser numérico.'
+            ],
+            'descripcion' => [
+                'required'   => 'La descripción es obligatoria.',
+                'min_length' => 'La descripción debe tener al menos 10 caracteres.'
+            ],
+            'categoria_id' => [
+                'required' => 'Debes seleccionar una categoría.'
+            ],
+            'precio_dia' => [
+                'required' => 'El precio por día es obligatorio.',
+                'decimal'  => 'El precio debe ser un número válido.'
+            ],
+            'imagen' => [
+                'uploaded' => 'Debe seleccionar una imagen para el vehículo.',
+                'is_image' => 'El archivo seleccionado no es una imagen válida.',
+                'mime_in'  => 'Solo se permiten formatos JPG, JPEG y PNG.',
+                'max_size' => 'La imagen es demasiado pesada (máximo 2MB).'
+            ]
+        ];
+
+        // 3. Validar y redirigir SOLO LOS ERRORES en un arreglo puro (getErrors)
+        if (!$this->validate($reglas, $mensajes)) {
+            return redirect()->back()->withInput()->with('errors', $this->validator->getErrors());
         }
 
-        // 3. Preparar los datos incluyendo el nombre del archivo
+        $imagen = $this->request->getFile('imagen');
+        $nombreImagen = $imagen->getRandomName();
+        $imagen->move(ROOTPATH . 'public/assets/img/', $nombreImagen);
+
         $datos = [
             'marca'        => $this->request->getPost('marca'),
             'modelo'       => $this->request->getPost('modelo'),
@@ -74,13 +128,15 @@ class AdminController extends BaseController
             'plazas'       => $this->request->getPost('plazas'),
             'precio_dia'   => $this->request->getPost('precio_dia'),
             'categoria_id' => $this->request->getPost('categoria_id'),
+            'kilometraje'  => $this->request->getPost('kilometraje'),
+            'descripcion'  => $this->request->getPost('descripcion'),
             'imagen_url'   => $nombreImagen 
         ];
 
         if ($vehiculoModel->save($datos)) {
-            return redirect()->to('/admin/vehiculos')->with('mensaje', 'Vehículo y foto subidos con éxito.');
+            return redirect()->to('/admin/vehiculos')->with('mensaje', 'Vehículo guardado exitosamente.');
         } else {
-            return redirect()->back()->with('error', 'Error al guardar.');
+            return redirect()->back()->withInput()->with('error', 'Ocurrió un error al guardar en la base de datos.');
         }
     }
 }
