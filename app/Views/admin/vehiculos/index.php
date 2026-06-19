@@ -70,10 +70,11 @@
                                 <td class="fw-bold text-success">$<?= number_format($v['precio_dia'], 2, ',', '.') ?></td>
                                 <td class="text-center pe-4">
                                     <div class="btn-group btn-group-sm" role="group">
-                                        <a href="#" class="btn btn-outline-primary" title="Editar">
+                                        <!-- BOTÓN EDITAR -->
+                                        <a href="<?= base_url('admin/vehiculos/editar/' . $v['id']) ?>" class="btn btn-outline-primary" title="Editar">
                                             <i class="bi bi-pencil-square"></i>
                                         </a>
-                                        <!-- BOTÓN ELIMINAR ACTUALIZADO -->
+                                        <!-- BOTÓN ELIMINAR -->
                                         <a href="<?= base_url('admin/vehiculos/eliminar/' . $v['id']) ?>" 
                                            class="btn btn-outline-danger" 
                                            title="Eliminar (Baja Lógica)"
