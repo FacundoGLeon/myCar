@@ -64,18 +64,21 @@
             
             <ul class="nav flex-column mb-auto">
                 <li class="nav-item">
-                    <a href="<?= base_url('admin/dashboard') ?>" class="nav-link active">
+                    <a href="<?= base_url('admin/dashboard') ?>" class="nav-link <?= current_url(true)->getSegment(2) == 'dashboard' ? 'active' : '' ?>">
                         <i class="bi bi-speedometer2 me-2"></i> Dashboard
                     </a>
                 </li>
                 <li class="nav-item mt-3 mb-1 text-muted small text-uppercase fw-bold ps-3">Gestión de Flota</li>
+                
+                <!-- ENLACE DE CATEGORÍAS ACTUALIZADO -->
                 <li class="nav-item">
-                    <a href="#" class="nav-link">
+                    <a href="<?= base_url('admin/categorias') ?>" class="nav-link <?= current_url(true)->getSegment(2) == 'categorias' ? 'active' : '' ?>">
                         <i class="bi bi-tags me-2"></i> Categorías
                     </a>
                 </li>
+                
                 <li class="nav-item">
-                    <a href="<?= base_url('admin/vehiculos') ?>" class="nav-link">
+                    <a href="<?= base_url('admin/vehiculos') ?>" class="nav-link <?= current_url(true)->getSegment(2) == 'vehiculos' ? 'active' : '' ?>">
                         <i class="bi bi-car-front me-2"></i> Vehículos
                     </a>
                 </li>
@@ -118,14 +121,14 @@
             <!-- Zona de Mensajes Flash -->
             <?php if(session()->getFlashdata('mensaje')): ?>
                 <div class="alert alert-success alert-dismissible fade show shadow-sm" role="alert">
-                    <i class="bi bi-check-circle-fill me-2"></i><?= session()->getFlashdata('mensaje') ?>
+                    <i class="bi bi-check-circle-fill me-2"></i> <?= session()->getFlashdata('mensaje') ?>
                     <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
                 </div>
             <?php endif; ?>
 
             <?php if(session()->getFlashdata('error')): ?>
                 <div class="alert alert-danger alert-dismissible fade show shadow-sm" role="alert">
-                    <i class="bi bi-exclamation-triangle-fill me-2"></i><?= session()->getFlashdata('error') ?>
+                    <i class="bi bi-exclamation-triangle-fill me-2"></i> <?= session()->getFlashdata('error') ?>
                     <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
                 </div>
             <?php endif; ?>

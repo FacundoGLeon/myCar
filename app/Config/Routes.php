@@ -37,6 +37,14 @@ $routes->group('admin', ['filter' => 'adminauth'], static function ($routes) {
     $routes->get('vehiculos/eliminar/(:num)', 'AdminController::eliminar/$1');
     $routes->get('vehiculos/editar/(:num)', 'AdminController::editar/$1');
     $routes->post('vehiculos/actualizar/(:num)', 'AdminController::actualizar/$1');
+
+    // GESTIÓN DE CATEGORÍAS (Añadir estas líneas al grupo 'admin')
+    $routes->get('categorias', 'CategoriasController::index');
+    $routes->get('categorias/nuevo', 'CategoriasController::nuevo');
+    $routes->post('categorias/guardar', 'CategoriasController::guardar');
+    $routes->get('categorias/editar/(:num)', 'CategoriasController::editar/$1');
+    $routes->post('categorias/actualizar/(:num)', 'CategoriasController::actualizar/$1');
+    $routes->get('categorias/eliminar/(:num)', 'CategoriasController::eliminar/$1');
 });
 
 
