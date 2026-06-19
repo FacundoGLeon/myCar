@@ -53,7 +53,7 @@ $catalogo = $catalogo ?? [];
                 <div class="col">
                     <div class="card card-vehiculo h-100">
                         <!-- Imagen del vehículo. Si no encuentra la imagen física, muestra un placeholder -->
-                        <img src="<?= base_url('assets/img/' . $v['imagen_url']) ?>" 
+                        <img src="<?= base_url('public/assets/img/' . $v['imagen_url']) ?>" 
                              class="card-img-top" 
                              alt="<?= $v['marca'] . ' ' . $v['modelo'] ?>" 
                              style="height: 200px; object-fit: cover;"
