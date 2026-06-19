@@ -34,5 +34,8 @@ $routes->group('admin', ['filter' => 'adminauth'], static function ($routes) {
     $routes->get('vehiculos', 'AdminController::vehiculos');
     $routes->get('vehiculos/nuevo', 'AdminController::nuevo');
     $routes->post('vehiculos/guardar', 'AdminController::guardar');
+    $routes->get('vehiculos/eliminar/(:num)', 'AdminController::eliminar/$1');
 });
+
+
 

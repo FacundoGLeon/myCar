@@ -8,12 +8,26 @@
         <p class="text-muted">Administra el catálogo de la flota disponible para alquiler.</p>
     </div>
     <div class="col-md-4 text-end">
-        <!-- Este botón pronto nos llevará al formulario de "Nuevo Vehículo" -->
         <a href="<?= base_url('admin/vehiculos/nuevo') ?>" class="btn btn-success fw-bold shadow-sm">
             <i class="bi bi-plus-circle me-1"></i> Agregar Vehículo
         </a>
     </div>
 </div>
+
+<!-- BLOQUE PARA MOSTRAR MENSAJES DE ÉXITO O ERROR -->
+<!-- <?php if (session()->has('mensaje')): ?>
+    <div class="alert alert-success alert-dismissible fade show" role="alert">
+        <i class="bi bi-check-circle-fill me-2"></i> <?= session('mensaje') ?>
+        <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+    </div>
+<?php endif; ?>
+
+<?php if (session()->has('error')): ?>
+    <div class="alert alert-danger alert-dismissible fade show" role="alert">
+        <i class="bi bi-exclamation-triangle-fill me-2"></i> <?= session('error') ?>
+        <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+    </div>
+<?php endif; ?> -->
 
 <div class="card border-0 shadow-sm rounded-3">
     <div class="card-body p-0">
@@ -41,7 +55,6 @@
                             <tr>
                                 <td class="ps-4">
                                     <div class="d-flex align-items-center">
-                                        <!-- Miniatura de la foto -->
                                         <img src="<?= base_url('public/assets/img/' . $v['imagen_url']) ?>" 
                                              class="rounded-3 me-3" 
                                              style="width: 60px; height: 40px; object-fit: cover;"
@@ -60,7 +73,11 @@
                                         <a href="#" class="btn btn-outline-primary" title="Editar">
                                             <i class="bi bi-pencil-square"></i>
                                         </a>
-                                        <a href="#" class="btn btn-outline-danger" title="Eliminar (Baja Lógica)">
+                                        <!-- BOTÓN ELIMINAR ACTUALIZADO -->
+                                        <a href="<?= base_url('admin/vehiculos/eliminar/' . $v['id']) ?>" 
+                                           class="btn btn-outline-danger" 
+                                           title="Eliminar (Baja Lógica)"
+                                           onclick="return confirm('¿Estás seguro de que deseas eliminar el vehículo <?= $v['marca'] ?> <?= $v['modelo'] ?>?');">
                                             <i class="bi bi-trash"></i>
                                         </a>
                                     </div>
@@ -72,7 +89,6 @@
             </table>
         </div>
         
-        <!-- BLOQUE DE PAGINACIÓN AGREGADO AQUÍ -->
         <?php if (!empty($pager)): ?>
             <div class="card-footer bg-white border-0 p-3 d-flex justify-content-center">
                 <?= $pager->links('default', 'default_full') ?>

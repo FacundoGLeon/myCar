@@ -139,4 +139,24 @@ class AdminController extends BaseController
             return redirect()->back()->withInput()->with('error', 'Ocurrió un error al guardar en la base de datos.');
         }
     }
+
+    // =======================================================
+    // ELIMINAR VEHÍCULO (Baja Lógica)
+    // =======================================================
+    public function eliminar($id = null)
+    {
+        $vehiculoModel = new VehiculoModel();
+
+        // Verificamos si el vehículo existe antes de intentar borrar
+        $vehiculo = $vehiculoModel->find($id);
+        
+        if (!$vehiculo) {
+            return redirect()->to('/admin/vehiculos')->with('error', 'El vehículo no existe o ya fue eliminado.');
+        }
+
+        // Ejecutamos la baja lógica. CodeIgniter automáticamente pondrá la fecha en 'deleted_at'
+        $vehiculoModel->delete($id);
+
+        return redirect()->to('/admin/vehiculos')->with('mensaje', 'Vehículo eliminado correctamente.');
+    }
 }
