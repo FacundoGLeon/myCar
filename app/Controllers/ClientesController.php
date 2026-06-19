@@ -9,21 +9,35 @@ use App\Controllers\BaseController;
 class ClientesController extends BaseController
 {
     // =======================================================
-    // LISTADO DE CLIENTES
+    // LISTADO DE CLIENTES (Con Buscador)
     // =======================================================
     public function index()
     {
         $clienteModel = new ClienteModel();
         
-        // Hacemos un JOIN para traer el email desde la tabla usuarios
-        $clientes = $clienteModel->select('clientes.*, usuarios.email')
-                                 ->join('usuarios', 'usuarios.id = clientes.usuario_id')
-                                 ->paginate(10);
+        $builder = $clienteModel->select('clientes.*, usuarios.email')
+                                ->join('usuarios', 'usuarios.id = clientes.usuario_id');
+
+        // Capturamos la palabra a buscar
+        $buscar = $this->request->getGet('buscar');
+        
+        if (!empty($buscar)) {
+            // Usamos groupStart para que los OR no rompan otras condiciones (como el deleted_at)
+            $builder->groupStart()
+                    ->like('clientes.nombre', $buscar)
+                    ->orLike('clientes.apellido', $buscar)
+                    ->orLike('clientes.telefono', $buscar)
+                    ->orLike('usuarios.email', $buscar)
+                    ->groupEnd();
+        }
+
+        $clientes = $builder->paginate(10);
 
         $data = [
             'titulo'   => 'Gestión de Clientes - Admin MyCar',
             'clientes' => $clientes,
-            'pager'    => $clienteModel->pager
+            'pager'    => $clienteModel->pager,
+            'buscar'   => $buscar // Para mantener el texto en el input
         ];
 
         return view('admin/clientes/index', $data);

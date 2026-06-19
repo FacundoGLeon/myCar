@@ -2,10 +2,31 @@
 
 <?= $this->section('content') ?>
 
+<?php $estado_filtro = $estado_filtro ?? ''; ?>
+
 <div class="row mb-4">
-    <div class="col-md-8">
+    <div class="col-md-6">
         <h2 class="fw-bold"><i class="bi bi-calendar-check text-muted me-2"></i>Gestión de Alquileres</h2>
-        <p class="text-muted">Administra las reservas y el estado actual de los alquileres.</p>
+        <p class="text-muted">Administra las reservas y controla las devoluciones.</p>
+    </div>
+    <div class="col-md-6">
+        <!-- BARRA DE FILTROS -->
+        <form action="<?= base_url('admin/alquileres') ?>" method="GET" class="d-flex justify-content-end bg-white p-3 rounded-3 shadow-sm">
+            <div class="d-flex align-items-center">
+                <label class="fw-bold me-2 text-nowrap">Filtrar por Estado:</label>
+                <select name="estado" class="form-select form-select-sm me-2" style="width: 150px;">
+                    <option value="">Todos</option>
+                    <option value="Pendiente" <?= $estado_filtro == 'Pendiente' ? 'selected' : '' ?>>Pendientes</option>
+                    <option value="Alquilado" <?= $estado_filtro == 'Alquilado' ? 'selected' : '' ?>>Alquilados</option>
+                    <option value="Devuelto" <?= $estado_filtro == 'Devuelto' ? 'selected' : '' ?>>Devueltos</option>
+                    <option value="Cancelado" <?= $estado_filtro == 'Cancelado' ? 'selected' : '' ?>>Cancelados</option>
+                </select>
+                <button type="submit" class="btn btn-sm btn-dark">Filtrar</button>
+                <?php if($estado_filtro): ?>
+                    <a href="<?= base_url('admin/alquileres') ?>" class="btn btn-sm btn-outline-danger ms-2" title="Limpiar Filtro"><i class="bi bi-x-lg"></i></a>
+                <?php endif; ?>
+            </div>
+        </form>
     </div>
 </div>
 
@@ -19,8 +40,8 @@
                         <th scope="col">Cliente</th>
                         <th scope="col">Vehículo</th>
                         <th scope="col">Período</th>
-                        <th scope="col">Total</th>
-                        <th scope="col" class="text-center pe-4">Estado y Acciones</th>
+                        <th scope="col">Estado</th>
+                        <th scope="col" class="text-center pe-4">Acción Requerida</th>
                     </tr>
                 </thead>
                 <tbody>
@@ -28,7 +49,7 @@
                         <tr>
                             <td colspan="6" class="text-center py-5 text-muted">
                                 <i class="bi bi-journal-x fs-1 d-block mb-2"></i>
-                                No hay alquileres registrados en el sistema.
+                                No se encontraron alquileres con estos criterios.
                             </td>
                         </tr>
                     <?php else: ?>
@@ -52,30 +73,51 @@
                                     </div>
                                     <span class="badge bg-light text-dark border mt-1"><?= $alq['dias'] ?> días</span>
                                 </td>
-                                <td class="fw-bold text-success">
-                                    $<?= number_format($alq['monto_total'], 2, ',', '.') ?>
+                                <td>
+                                    <?php
+                                        $badge = 'bg-secondary';
+                                        if ($alq['estado'] == 'Pendiente') $badge = 'bg-warning text-dark';
+                                        if ($alq['estado'] == 'Alquilado') $badge = 'bg-primary';
+                                        if ($alq['estado'] == 'Devuelto') $badge = 'bg-success';
+                                        if ($alq['estado'] == 'Cancelado') $badge = 'bg-danger';
+                                    ?>
+                                    <span class="badge <?= $badge ?> px-2 py-1"><?= $alq['estado'] ?></span><br>
+                                    <small class="fw-bold text-success">$<?= number_format($alq['monto_total'], 2, ',', '.') ?></small>
                                 </td>
                                 <td class="text-center pe-4">
-                                    <!-- Formulario rápido para cambiar estado -->
-                                    <form action="<?= base_url('admin/alquileres/cambiarEstado/' . $alq['id']) ?>" method="POST" class="d-flex justify-content-center align-items-center">
-                                        <?= csrf_field() ?>
-                                        
-                                        <?php
-                                            // Asignamos un color según el estado
-                                            $color = 'secondary';
-                                            if ($alq['estado'] == 'Pendiente') $color = 'warning ';//text-dark
-                                            if ($alq['estado'] == 'Alquilado') $color = 'primary';
-                                            if ($alq['estado'] == 'Devuelto') $color = 'success';
-                                            if ($alq['estado'] == 'Cancelado') $color = 'danger';
-                                        ?>
-                                        
-                                        <select name="estado" class="form-select form-select-sm border-<?= $color ?> text-<?= $color ?> fw-bold me-2" style="width: 120px;" onchange="this.form.submit()">
-                                            <option value="Pendiente" <?= $alq['estado'] == 'Pendiente' ? 'selected' : '' ?>>Pendiente</option>
-                                            <option value="Alquilado" <?= $alq['estado'] == 'Alquilado' ? 'selected' : '' ?>>Alquilado</option>
-                                            <option value="Devuelto" <?= $alq['estado'] == 'Devuelto' ? 'selected' : '' ?>>Devuelto</option>
-                                            <option value="Cancelado" <?= $alq['estado'] == 'Cancelado' ? 'selected' : '' ?>>Cancelado</option>
-                                        </select>
-                                    </form>
+                                    
+                                    <!-- LÓGICA DE BOTONES SEGÚN EL ESTADO -->
+                                    <?php if ($alq['estado'] == 'Pendiente'): ?>
+                                        <div class="d-flex flex-column gap-1 align-items-center">
+                                            <form action="<?= base_url('admin/alquileres/accion/' . $alq['id']) ?>" method="POST" class="w-100">
+                                                <?= csrf_field() ?>
+                                                <input type="hidden" name="accion" value="confirmar">
+                                                <button type="submit" class="btn btn-sm btn-success w-100 fw-bold" onclick="return confirm('¿Confirmar esta reserva y pasar el auto a estado Alquilado?');">
+                                                    <i class="bi bi-check-circle me-1"></i> Aprobar
+                                                </button>
+                                            </form>
+                                            <form action="<?= base_url('admin/alquileres/accion/' . $alq['id']) ?>" method="POST" class="w-100">
+                                                <?= csrf_field() ?>
+                                                <input type="hidden" name="accion" value="cancelar">
+                                                <button type="submit" class="btn btn-sm btn-outline-danger w-100" onclick="return confirm('¿Seguro que deseas cancelar esta reserva?');">
+                                                    <i class="bi bi-x-circle me-1"></i> Cancelar
+                                                </button>
+                                            </form>
+                                        </div>
+
+                                    <?php elseif ($alq['estado'] == 'Alquilado'): ?>
+                                        <form action="<?= base_url('admin/alquileres/accion/' . $alq['id']) ?>" method="POST">
+                                            <?= csrf_field() ?>
+                                            <input type="hidden" name="accion" value="devolver">
+                                            <button type="submit" class="btn btn-sm btn-primary fw-bold" onclick="return confirm('¿Confirmar que el cliente devolvió el auto en condiciones?');">
+                                                <i class="bi bi-arrow-return-left me-1"></i> Registrar Devolución
+                                            </button>
+                                        </form>
+
+                                    <?php else: ?>
+                                        <span class="text-muted small"><i class="bi bi-lock-fill"></i> Operación Finalizada</span>
+                                    <?php endif; ?>
+
                                 </td>
                             </tr>
                         <?php endforeach; ?>

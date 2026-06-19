@@ -54,7 +54,12 @@ $routes->group('admin', ['filter' => 'adminauth'], static function ($routes) {
 
     // GESTIÓN DE ALQUILERES
     $routes->get('alquileres', 'AlquileresController::index');
-    $routes->post('alquileres/cambiarEstado/(:num)', 'AlquileresController::cambiarEstado/$1');
+    $routes->post('alquileres/accion/(:num)', 'AlquileresController::accion/$1');
+
+    // REPORTES Y ESTADÍSTICAS
+    $routes->get('reportes/vehiculo', 'ReportesController::porVehiculo');
+    $routes->get('reportes/cliente', 'ReportesController::porCliente');
+    $routes->get('reportes/actuales', 'ReportesController::actuales');
 });
 
 

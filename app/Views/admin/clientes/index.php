@@ -1,11 +1,25 @@
 <?= $this->extend('layouts/admin') ?>
 
 <?= $this->section('content') ?>
+<?php $buscar = $buscar ?? ''; ?>
 
-<div class="row mb-4">
-    <div class="col-md-8">
+<div class="row mb-4 align-items-center">
+    <div class="col-md-5">
         <h2 class="fw-bold"><i class="bi bi-people text-muted me-2"></i>Gestión de Clientes</h2>
-        <p class="text-muted">Administra los perfiles de los usuarios registrados en la plataforma.</p>
+        <p class="text-muted mb-0">Administra los perfiles de los usuarios registrados.</p>
+    </div>
+    <div class="col-md-7">
+        <!-- BARRA DE BÚSQUEDA -->
+        <form action="<?= base_url('admin/clientes') ?>" method="GET" class="d-flex justify-content-end">
+            <div class="input-group shadow-sm" style="max-width: 400px;">
+                <span class="input-group-text bg-white border-end-0"><i class="bi bi-search text-muted"></i></span>
+                <input type="text" name="buscar" class="form-control border-start-0" placeholder="Buscar por nombre, apellido, email..." value="<?= esc($buscar) ?>">
+                <button type="submit" class="btn btn-primary fw-bold">Buscar</button>
+                <?php if($buscar): ?>
+                    <a href="<?= base_url('admin/clientes') ?>" class="btn btn-outline-danger" title="Limpiar"><i class="bi bi-x-lg"></i></a>
+                <?php endif; ?>
+            </div>
+        </form>
     </div>
 </div>
 
@@ -27,7 +41,11 @@
                         <tr>
                             <td colspan="5" class="text-center py-5 text-muted">
                                 <i class="bi bi-person-x fs-1 d-block mb-2"></i>
-                                Aún no hay clientes registrados en el sistema.
+                                <?php if($buscar): ?>
+                                    No se encontraron clientes que coincidan con "<strong><?= esc($buscar) ?></strong>".
+                                <?php else: ?>
+                                    Aún no hay clientes registrados en el sistema.
+                                <?php endif; ?>
                             </td>
                         </tr>
                     <?php else: ?>
@@ -58,7 +76,7 @@
                                         <a href="<?= base_url('admin/clientes/eliminar/' . $c['id']) ?>" 
                                            class="btn btn-outline-danger" 
                                            title="Dar de Baja"
-                                           onclick="return confirm('¿Estás seguro de dar de baja al cliente <?= $c['nombre'] ?>? No podrá volver a iniciar sesión.');">
+                                           onclick="return confirm('¿Estás seguro de dar de baja al cliente <?= $c['nombre'] ?>?');">
                                             <i class="bi bi-person-x"></i>
                                         </a>
                                     </div>

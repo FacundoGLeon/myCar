@@ -8,30 +8,67 @@ use App\Controllers\BaseController;
 
 class AdminController extends BaseController
 {
+    // =======================================================
+    // DASHBOARD PRINCIPAL
+    // =======================================================
     public function index()
     {
+        // Instanciamos todos los modelos que necesitamos consultar
+        $vehiculoModel  = new \App\Models\VehiculoModel();
+        $clienteModel   = new \App\Models\ClienteModel();
+        $alquilerModel  = new \App\Models\AlquilerModel();
+        $categoriaModel = new \App\Models\CategoriaModel();
+
+        // Armamos un arreglo con todas las estadísticas
         $data = [
-            'titulo' => 'Panel de Control - MyCar'
+            'titulo'          => 'Dashboard - Admin MyCar',
+            
+            // Contamos cuántos registros activos hay en cada tabla
+            'totalVehiculos'  => $vehiculoModel->countAllResults(),
+            'totalClientes'   => $clienteModel->countAllResults(),
+            'totalAlquileres' => $alquilerModel->countAllResults(),
+            'totalCategorias' => $categoriaModel->countAllResults(),
+            
+            // Traemos solo los ÚLTIMOS 5 alquileres para la tabla de "Últimos Movimientos"
+            'ultimosMovimientos' => $alquilerModel->select('alquileres.*, clientes.nombre, clientes.apellido, vehiculos.marca, vehiculos.modelo')
+                                                  ->join('clientes', 'clientes.id = alquileres.cliente_id')
+                                                  ->join('vehiculos', 'vehiculos.id = alquileres.vehiculo_id')
+                                                  ->orderBy('alquileres.created_at', 'DESC')
+                                                  ->limit(5) // Solo 5 registros
+                                                  ->find()
         ];
-        
+
         return view('admin/dashboard', $data);
     }
-
     // =======================================================
-    // GESTIÓN DE VEHÍCULOS
+    // LISTADO DE VEHÍCULOS (Con Buscador)
     // =======================================================
     public function vehiculos()
     {
-        $vehiculoModel = new VehiculoModel();
+        $vehiculoModel = new \App\Models\VehiculoModel();
         
-        $vehiculos = $vehiculoModel->select('vehiculos.*, categorias.nombre as categoria_nombre')
-                                   ->join('categorias', 'categorias.id = vehiculos.categoria_id')
-                                   ->paginate(10);
+        $builder = $vehiculoModel->select('vehiculos.*, categorias.nombre as categoria_nombre')
+                                 ->join('categorias', 'categorias.id = vehiculos.categoria_id', 'left');
+
+        // Capturamos la palabra a buscar
+        $buscar = $this->request->getGet('buscar');
+        
+        if (!empty($buscar)) {
+            $builder->groupStart()
+                    ->like('vehiculos.marca', $buscar)
+                    ->orLike('vehiculos.modelo', $buscar)
+                    ->orLike('categorias.nombre', $buscar)
+                    ->orLike('vehiculos.anio', $buscar)
+                    ->groupEnd();
+        }
+
+        $vehiculos = $builder->paginate(10);
 
         $data = [
-            'titulo'    => 'Gestión de Vehículos - Admin MyCar',
+            'titulo'    => 'Gestión de Vehículos - Admin',
             'vehiculos' => $vehiculos,
-            'pager'     => $vehiculoModel->pager
+            'pager'     => $vehiculoModel->pager,
+            'buscar'    => $buscar // Pasamos la variable a la vista
         ];
 
         return view('admin/vehiculos/index', $data);

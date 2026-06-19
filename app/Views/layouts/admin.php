@@ -70,7 +70,6 @@
                 </li>
                 <li class="nav-item mt-3 mb-1 text-muted small text-uppercase fw-bold ps-3">Gestión de Flota</li>
                 
-                <!-- ENLACE DE CATEGORÍAS ACTUALIZADO -->
                 <li class="nav-item">
                     <a href="<?= base_url('admin/categorias') ?>" class="nav-link <?= current_url(true)->getSegment(2) == 'categorias' ? 'active' : '' ?>">
                         <i class="bi bi-tags me-2"></i> Categorías
@@ -91,6 +90,25 @@
                 <li class="nav-item">
                     <a href="<?= base_url('admin/alquileres') ?>" class="nav-link <?= current_url(true)->getSegment(2) == 'alquileres' ? 'active' : '' ?>">
                         <i class="bi bi-calendar-check me-2"></i> Alquileres
+                    </a>
+                </li>
+
+                <!-- REPORTES -->
+                <li class="nav-item mt-3 mb-1 text-muted small text-uppercase fw-bold ps-3">Reportes</li>
+                <li class="nav-item">
+                    <a href="<?= base_url('admin/reportes/vehiculo') ?>" class="nav-link <?= current_url(true)->getSegment(3) == 'vehiculo' ? 'active' : '' ?>">
+                        <!-- CAMBIO DE ICONO AQUÍ -->
+                        <i class="bi bi-file-earmark-text me-2"></i> Reporte Vehículo
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a href="<?= base_url('admin/reportes/cliente') ?>" class="nav-link <?= current_url(true)->getSegment(3) == 'cliente' ? 'active' : '' ?>">
+                        <i class="bi bi-file-earmark-person me-2"></i> Reporte Cliente
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a href="<?= base_url('admin/reportes/actuales') ?>" class="nav-link <?= current_url(true)->getSegment(3) == 'actuales' ? 'active' : '' ?>">
+                        <i class="bi bi-car-front-fill me-2"></i> Autos en Calle
                     </a>
                 </li>
             </ul>
