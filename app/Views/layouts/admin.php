@@ -84,12 +84,12 @@
                 </li>
                 <li class="nav-item mt-3 mb-1 text-muted small text-uppercase fw-bold ps-3">Gestión Comercial</li>
                 <li class="nav-item">
-                    <a href="#" class="nav-link">
+                    <a href="<?= base_url('admin/clientes') ?>" class="nav-link <?= current_url(true)->getSegment(2) == 'clientes' ? 'active' : '' ?>">
                         <i class="bi bi-people me-2"></i> Clientes
                     </a>
                 </li>
                 <li class="nav-item">
-                    <a href="#" class="nav-link">
+                    <a href="<?= base_url('admin/alquileres') ?>" class="nav-link <?= current_url(true)->getSegment(2) == 'alquileres' ? 'active' : '' ?>">
                         <i class="bi bi-calendar-check me-2"></i> Alquileres
                     </a>
                 </li>

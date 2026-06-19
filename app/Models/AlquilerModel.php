@@ -11,8 +11,8 @@ class AlquilerModel extends Model
     protected $useAutoIncrement = true;
     protected $returnType       = 'array';
     
-    // El TP no pide historial de borrado para alquileres, solo estados.
-    protected $useSoftDeletes   = false; 
+    // Aquí NO usamos soft deletes porque la tabla no tiene deleted_at
+    protected $useSoftDeletes   = false;
     
     protected $allowedFields    = [
         'vehiculo_id', 'cliente_id', 'fecha_desde', 

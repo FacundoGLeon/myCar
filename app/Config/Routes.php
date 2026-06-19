@@ -45,6 +45,16 @@ $routes->group('admin', ['filter' => 'adminauth'], static function ($routes) {
     $routes->get('categorias/editar/(:num)', 'CategoriasController::editar/$1');
     $routes->post('categorias/actualizar/(:num)', 'CategoriasController::actualizar/$1');
     $routes->get('categorias/eliminar/(:num)', 'CategoriasController::eliminar/$1');
+
+    // GESTIÓN DE CLIENTES
+    $routes->get('clientes', 'ClientesController::index');
+    $routes->get('clientes/editar/(:num)', 'ClientesController::editar/$1');
+    $routes->post('clientes/actualizar/(:num)', 'ClientesController::actualizar/$1');
+    $routes->get('clientes/eliminar/(:num)', 'ClientesController::eliminar/$1');
+
+    // GESTIÓN DE ALQUILERES
+    $routes->get('alquileres', 'AlquileresController::index');
+    $routes->post('alquileres/cambiarEstado/(:num)', 'AlquileresController::cambiarEstado/$1');
 });
 
 
