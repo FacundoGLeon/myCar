@@ -125,4 +125,39 @@ class ReservaController extends BaseController
 
         return redirect()->back()->with('error', 'Ocurrió un problema al guardar en la Base de Datos.');
     }
+
+    // =======================================================
+    // HISTORIAL DEL CLIENTE (Mis Reservas)
+    // =======================================================
+    public function misReservas()
+    {
+        if (!session()->get('isLoggedIn') || session()->get('rol') !== 'cliente') {
+            return redirect()->to('/login');
+        }
+
+        $alquilerModel = new AlquilerModel();
+        $clienteModel  = new ClienteModel();
+
+        // 1. Buscamos quién es el cliente logueado
+        $cliente = $clienteModel->where('usuario_id', session()->get('usuario_id'))->first();
+
+        if (!$cliente) {
+            return redirect()->to('/')->with('error', 'Error: Perfil de cliente no encontrado.');
+        }
+
+        // 2. Buscamos todas sus reservas uniéndolas con los datos del vehículo (AHORA CON PAGINACIÓN)
+        $reservas = $alquilerModel->select('alquileres.*, vehiculos.marca, vehiculos.modelo, vehiculos.imagen_url')
+                                  ->join('vehiculos', 'vehiculos.id = alquileres.vehiculo_id')
+                                  ->where('cliente_id', $cliente['id'])
+                                  ->orderBy('alquileres.created_at', 'DESC')
+                                  ->paginate(10); // Paginamos de a 10 registros por pantalla
+
+        $data = [
+            'titulo'   => 'Mis Reservas - MyCar',
+            'reservas' => $reservas,
+            'pager'    => $alquilerModel->pager // Enviamos el paginador a la vista
+        ];
+
+        return view('reservas/mis_reservas', $data);
+    }
 }

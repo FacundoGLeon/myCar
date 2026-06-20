@@ -65,6 +65,7 @@ $routes->group('admin', ['filter' => 'adminauth'], static function ($routes) {
 // RUTAS DE RESERVA (Cliente)
     $routes->get('reserva/nuevo/(:num)', 'ReservaController::nuevo/$1');
     $routes->post('reserva/guardar/(:num)', 'ReservaController::guardar/$1');
+    $routes->get('mis-reservas', 'ReservaController::misReservas');
 
 
 
