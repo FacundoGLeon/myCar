@@ -12,23 +12,32 @@ class Home extends BaseController
         $vehiculoModel = new VehiculoModel();
         $categoriaModel = new CategoriaModel();
 
-        // 1. Capturamos si el usuario hizo clic en algún filtro de categoría de la URL (?categoria=X)
+        // 1. Capturamos los filtros de la URL (?categoria=X & buscar=Y)
         $categoriaId = $this->request->getGet('categoria');
+        $buscar = $this->request->getGet('buscar');
 
-        // 2. Obtenemos TODAS las categorías para poder dibujar los botones en la vista
         $categorias = $categoriaModel->findAll();
         
-        // 3. Optimizamos la búsqueda: Si hay filtro, buscamos solo esos. Si no, traemos todos.
+        // 2. Armamos la consulta dinámica
+        $builder = $vehiculoModel->builder();
+        
         if ($categoriaId) {
-            $vehiculos = $vehiculoModel->where('categoria_id', $categoriaId)->findAll();
-        } else {
-            $vehiculos = $vehiculoModel->findAll();
+            $builder->where('categoria_id', $categoriaId);
         }
 
-        // Agrupamos los vehículos por categoría para mandarlos ordenados a la vista
+        if (!empty($buscar)) {
+            // Buscamos por marca o modelo
+            $builder->groupStart()
+                    ->like('marca', $buscar)
+                    ->orLike('modelo', $buscar)
+                    ->groupEnd();
+        }
+
+        $vehiculos = $vehiculoModel->findAll();
+
+        // 3. Agrupamos los vehículos por categoría
         $catalogo = [];
         foreach ($categorias as $cat) {
-            // Si el usuario filtró una categoría y esta no es, la saltamos para no dibujarla vacía
             if ($categoriaId && $cat['id'] != $categoriaId) {
                 continue;
             }
@@ -38,7 +47,6 @@ class Home extends BaseController
             ];
         }
 
-        // Asignamos cada vehículo a su categoría correspondiente
         foreach ($vehiculos as $vehiculo) {
             if (isset($catalogo[$vehiculo['categoria_id']])) {
                 $catalogo[$vehiculo['categoria_id']]['vehiculos'][] = $vehiculo;
@@ -46,10 +54,11 @@ class Home extends BaseController
         }
 
         $data = [
-            'titulo' => 'Catálogo - MyCar',
-            'catalogo' => $catalogo,
-            'categorias' => $categorias, 
-            'categoriaSeleccionada' => $categoriaId // Para pintar el botón seleccionado en la vista
+            'titulo'                => 'Catálogo - MyCar',
+            'catalogo'              => $catalogo,
+            'categorias'            => $categorias, 
+            'categoriaSeleccionada' => $categoriaId,
+            'buscar'                => $buscar
         ];
 
         return view('home', $data);

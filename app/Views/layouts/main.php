@@ -16,13 +16,13 @@
             --secondary-color: #e74c3c;
             --bg-color: #f8f9fa;
         }
-        body { background-color: #f8f9fa; font-family: 'Segoe UI', Arial, sans-serif; }
-        .navbar-custom { background-color: #2c3e50; }
+        body { background-color: var(--bg-color); font-family: 'Segoe UI', Arial, sans-serif; }
+        .navbar-custom { background-color: var(--primary-color); }
         .navbar-custom .navbar-brand, .navbar-custom .nav-link { color: #ffffff; }
-        .navbar-custom .nav-link:hover { color: #e74c3c; }
+        .navbar-custom .nav-link:hover { color: var(--secondary-color); }
         .card-vehiculo { border: none; border-radius: 12px; box-shadow: 0 4px 6px rgba(0,0,0,0.1); transition: transform 0.2s; }
         .card-vehiculo:hover { transform: translateY(-5px); }
-        .btn-mycar { background-color: #e74c3c; color: white; border: none; }
+        .btn-mycar { background-color: var(--secondary-color); color: white; border: none; }
         .btn-mycar:hover { background-color: #c0392b; color: white; }
     </style>
 </head>
@@ -66,6 +66,17 @@
                             <ul class="dropdown-menu dropdown-menu-end shadow-sm border-0">
                                 <li><h6 class="dropdown-header text-muted"><?= session()->get('email') ?></h6></li>
                                 <li><hr class="dropdown-divider"></li>
+                                
+                                <!-- NUEVO BOTÓN: MIS RESERVAS -->
+                                <?php if(session()->get('rol') == 'cliente'): ?>
+                                    <li>
+                                        <a class="dropdown-item fw-bold text-primary" href="<?= base_url('mis-reservas') ?>">
+                                            <i class="bi bi-card-list me-2"></i>Mis Reservas
+                                        </a>
+                                    </li>
+                                    <li><hr class="dropdown-divider"></li>
+                                <?php endif; ?>
+
                                 <li>
                                     <a class="dropdown-item text-danger fw-bold" href="<?= base_url('logout') ?>">
                                         <i class="bi bi-box-arrow-right me-2"></i>Cerrar Sesión
