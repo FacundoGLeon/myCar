@@ -128,6 +128,7 @@ foreach ($catalogo as $categoria):
                 <div class="col">
                     <div class="card card-vehiculo h-100">
                         <img src="<?= base_url('public/assets/img/' . $v['imagen_url']) ?>" 
+                             loading="lazy" 
                              class="card-img-top" 
                              alt="<?= $v['marca'] . ' ' . $v['modelo'] ?>" 
                              style="height: 200px; object-fit: cover;"
