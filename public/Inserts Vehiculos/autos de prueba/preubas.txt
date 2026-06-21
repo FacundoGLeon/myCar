@@ -1,0 +1,43 @@
+Datos para Prueba.
+
+OPCION 1:
+Marca: Lamborghini
+Modelo: Countach LPI 800-4
+Año: 2022
+Plazas: 2
+Precio por Día ($): 450000
+Motor: 6.5 V12 Híbrido
+Kilometraje: 150
+Categoría (Select): Lamborghini
+Descripción: El renacimiento de un ícono absoluto. Una edición limitada que rinde homenaje
+al legendario diseño de los 80s, combinando un chasis de fibra de carbono con tecnología
+híbrida de supercondensadores y la furia de un V12.
+Imagen a subir: lamborghini_countach.jpg
+
+OPCION 2:
+Marca: BMW
+Modelo: i7 M70 xDrive
+Año: 2024
+Plazas: 5
+Precio por Día ($): 185000
+Motor: Eléctrico (Dual Motor)
+Kilometraje: 2500
+Categoría (Select): BMW
+Descripción: El pináculo del lujo eléctrico. Un sedán majestuoso con pantalla de cine plegable
+en los asientos traseros, puertas automáticas y una aceleración silenciosa pero brutal gracias
+a sus más de 650 caballos de fuerza.
+Imagen a subir: bmw_i7.jpg
+
+OPCION 3:
+Marca: Porsche
+Modelo: 718 Cayman GT4 RS
+Año: 2023
+Plazas: 2
+Precio por Día ($): 210000
+Motor: 4.0 Bóxer Atmosférico
+Kilometraje: 3200
+Categoría (Select): Porsche
+Descripción: La perfección con motor central. Los ingenieros le colocaron el motor de
+carreras del 911 GT3 a este chasis compacto, creando una máquina de precisión con tomas de
+aire que rugen junto a tus oídos a 9000 RPM.
+Imagen a subir: porsche_gt4rs.jpg
