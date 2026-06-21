@@ -8,7 +8,7 @@
         <p class="text-muted">Administra las clasificaciones de los vehículos.</p>
     </div>
     <div class="col-md-4 text-end">
-        <a href="<?= base_url('admin/categorias/nuevo') ?>" class="btn btn-success fw-bold shadow-sm">
+        <a href="<?= base_url('admin/categorias/nuevo') ?>" class="btn btn-dark fw-bold shadow-sm">
             <i class="bi bi-plus-circle me-1"></i> Agregar Categoría
         </a>
     </div>
@@ -41,7 +41,7 @@
                                 <td class="fw-bold"><?= $cat['nombre'] ?></td>
                                 <td class="text-center pe-4">
                                     <div class="btn-group btn-group-sm" role="group">
-                                        <a href="<?= base_url('admin/categorias/editar/' . $cat['id']) ?>" class="btn btn-outline-primary" title="Editar">
+                                        <a href="<?= base_url('admin/categorias/editar/' . $cat['id']) ?>" class="btn btn-outline-dark" title="Editar">
                                             <i class="bi bi-pencil-square"></i>
                                         </a>
                                         <a href="<?= base_url('admin/categorias/eliminar/' . $cat['id']) ?>" 
@@ -61,7 +61,7 @@
         
         <?php if (!empty($pager)): ?>
             <div class="card-footer bg-white border-0 p-3 d-flex justify-content-center">
-                <?= $pager->links('default', 'default_full') ?>
+                <?= $pager->links('default', 'mi_paginador') ?>
             </div>
         <?php endif; ?>
     </div>

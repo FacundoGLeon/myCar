@@ -15,6 +15,9 @@
             --admin-bg: #f4f6f9;
             --sidebar-bg: #343a40;
             --sidebar-hover: #495057;
+            --primary-color: #2c3e50;
+            --secondary-color: #e74c3c;
+            --bg-color: #f8f9fa;
         }
         body { background-color: var(--admin-bg); font-family: 'Segoe UI', Arial, sans-serif; }
         
@@ -48,13 +51,18 @@
             justify-content: space-between;
             align-items: center;
         }
+
+        .form-control:focus, .form-select:focus {
+            border-color: #343a40 !important;
+            box-shadow: 0 0 0 0.25rem rgba(52, 58, 64, 0.25) !important;
+        }
     </style>
 </head>
 <body>
 
     <div class="d-flex">
         <!-- MENÚ LATERAL (SIDEBAR) -->
-        <nav class="sidebar flex-column p-3" style="width: 250px;">
+        <nav class="sidebar flex-column p-3" style="width: 260px;">
             <a href="<?= base_url('admin/dashboard') ?>" class="text-white text-decoration-none d-flex align-items-center mb-4 mt-2 ps-2">
                 <i class="bi bi-car-front-fill fs-3 me-2 text-warning"></i>
                 <span class="fs-4 fw-bold">MyCar <span class="text-warning">Admin</span></span>
@@ -68,7 +76,7 @@
                         <i class="bi bi-speedometer2 me-2"></i> Dashboard
                     </a>
                 </li>
-                <li class="nav-item mt-3 mb-1 text-muted small text-uppercase fw-bold ps-3">Gestión de Flota</li>
+                <li class="nav-item mt-3 mb-1 text-warning small text-uppercase fw-bold ps-3">Gestión de Flota</li>
                 
                 <li class="nav-item">
                     <a href="<?= base_url('admin/categorias') ?>" class="nav-link <?= current_url(true)->getSegment(2) == 'categorias' ? 'active' : '' ?>">
@@ -81,7 +89,7 @@
                         <i class="bi bi-car-front me-2"></i> Vehículos
                     </a>
                 </li>
-                <li class="nav-item mt-3 mb-1 text-muted small text-uppercase fw-bold ps-3">Gestión Comercial</li>
+                <li class="nav-item mt-3 mb-1 text-warning small text-uppercase fw-bold ps-3">Gestión Comercial</li>
                 <li class="nav-item">
                     <a href="<?= base_url('admin/clientes') ?>" class="nav-link <?= current_url(true)->getSegment(2) == 'clientes' ? 'active' : '' ?>">
                         <i class="bi bi-people me-2"></i> Clientes
@@ -94,7 +102,7 @@
                 </li>
 
                 <!-- REPORTES -->
-                <li class="nav-item mt-3 mb-1 text-muted small text-uppercase fw-bold ps-3">Reportes</li>
+                <li class="nav-item mt-3 mb-1 text-warning small text-uppercase fw-bold ps-3">Reportes</li>
                 <li class="nav-item">
                     <a href="<?= base_url('admin/reportes/vehiculo') ?>" class="nav-link <?= current_url(true)->getSegment(3) == 'vehiculo' ? 'active' : '' ?>">
                         <!-- CAMBIO DE ICONO AQUÍ -->
@@ -115,7 +123,7 @@
             
             <hr class="text-secondary mt-auto">
             <div class="dropdown">
-                <a href="<?= base_url('/') ?>" class="nav-link text-info">
+                <a href="<?= base_url('/') ?>" class="nav-link text-white">
                     <i class="bi bi-arrow-left-circle me-2"></i> Ir al Catálogo
                 </a>
                 <a href="<?= base_url('logout') ?>" class="nav-link text-danger mt-2">

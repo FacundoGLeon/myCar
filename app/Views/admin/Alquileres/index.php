@@ -128,7 +128,7 @@
         
         <?php if (!empty($pager)): ?>
             <div class="card-footer bg-white border-0 p-3 d-flex justify-content-center">
-                <?= $pager->links('default', 'default_full') ?>
+                <?= $pager->links('default', 'mi_paginador') ?>
             </div>
         <?php endif; ?>
     </div>

@@ -11,9 +11,17 @@ $historial = $historial ?? [];
 <!-- Importamos los estilos de Tom Select para Bootstrap 5 -->
 <link href="https://cdn.jsdelivr.net/npm/tom-select@2.2.2/dist/css/tom-select.bootstrap5.min.css" rel="stylesheet">
 
+<style>
+    /* Sobrescribir el estilo de foco (borde azul) de Tom Select */
+    .ts-wrapper.focus .ts-control {
+        border-color: #343a40 !important;
+        box-shadow: 0 0 0 0.25rem rgba(52, 58, 64, 0.25) !important;
+    }
+</style>
+
 <div class="row mb-4">
     <div class="col-md-12">
-        <h2 class="fw-bold"><i class="bi bi-file-earmark-text text-primary me-2"></i>Historial por Vehículo</h2>
+        <h2 class="fw-bold"><i class="bi bi-file-earmark-text text-muted me-2"></i>Historial por Vehículo</h2>
         <p class="text-muted">Selecciona o busca un vehículo para ver todos los clientes que lo han alquilado a lo largo del tiempo.</p>
     </div>
 </div>
@@ -34,7 +42,7 @@ $historial = $historial ?? [];
                 </select>
             </div>
             <div class="col-md-4">
-                <button type="submit" class="btn btn-primary w-100 fw-bold"><i class="bi bi-search me-2"></i> Generar Reporte</button>
+                <button type="submit" class="btn btn-dark w-100 fw-bold"><i class="bi bi-search me-2"></i> Generar Reporte</button>
             </div>
         </form>
     </div>
@@ -43,7 +51,7 @@ $historial = $historial ?? [];
 <?php if ($vehiculo_id): ?>
     <div class="card border-0 shadow-sm rounded-3">
         <div class="card-header bg-white border-bottom-0 pt-4 pb-0">
-            <h5 class="fw-bold text-success">Resultados encontrados</h5>
+            <h5 class="fw-bold text-muted">Resultados encontrados</h5>
         </div>
         <div class="card-body p-0 mt-3">
             <div class="table-responsive">
@@ -88,6 +96,13 @@ $historial = $historial ?? [];
                     </tbody>
                 </table>
             </div>
+            
+            <!-- AQUÍ AGREGAMOS LA PAGINACIÓN -->
+            <?php if (!empty($pager)): ?>
+                <div class="card-footer bg-white border-0 p-3 d-flex justify-content-center">
+                    <?= $pager->links('default', 'mi_paginador') ?>
+                </div>
+            <?php endif; ?>
         </div>
     </div>
 <?php endif; ?>

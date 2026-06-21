@@ -20,7 +20,7 @@
                     <?php endif; ?>
                 </div>
 
-                <button type="submit" class="btn btn-primary w-100 fw-bold">Guardar Categoría</button>
+                <button type="submit" class="btn btn-dark w-100 fw-bold">Guardar Categoría</button>
                 <a href="<?= base_url('admin/categorias') ?>" class="btn btn-link w-100 mt-2 text-muted">Cancelar</a>
             </form>
         </div>

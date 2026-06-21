@@ -147,7 +147,7 @@ $categorias = $categorias ?? [];
                     <small class="text-muted">Formatos aceptados: JPG, PNG. Tamaño máximo: 2MB.</small>
                 </div>
 
-                <button type="submit" class="btn btn-primary w-100 fw-bold">Guardar Vehículo</button>
+                <button type="submit" class="btn btn-dark w-100 fw-bold">Guardar Vehículo</button>
                 <a href="<?= base_url('admin/vehiculos') ?>" class="btn btn-link w-100 mt-2 text-muted">Cancelar</a>
             </form>
         </div>

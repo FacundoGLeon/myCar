@@ -134,7 +134,7 @@ $v = $vehiculo ?? []; // Datos actuales del auto
                     <?php endif; ?>
                 </div>
 
-                <button type="submit" class="btn btn-primary w-100 fw-bold">Actualizar Vehículo</button>
+                <button type="submit" class="btn btn-dark w-100 fw-bold">Actualizar Vehículo</button>
                 <a href="<?= base_url('admin/vehiculos') ?>" class="btn btn-link w-100 mt-2 text-muted">Cancelar y Volver</a>
             </form>
         </div>

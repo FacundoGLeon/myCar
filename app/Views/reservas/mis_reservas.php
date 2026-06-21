@@ -96,7 +96,7 @@
             <!-- PAGINACIÓN DINÁMICA -->
             <?php if (!empty($pager)): ?>
                 <div class="d-flex justify-content-center mt-5 mb-3">
-                    <?= $pager->links('default', 'default_full') ?>
+                    <?= $pager->links('default', 'mi_paginador') ?>
                 </div>
             <?php endif; ?>
 

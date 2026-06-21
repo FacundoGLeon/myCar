@@ -14,7 +14,7 @@
             <div class="input-group shadow-sm" style="max-width: 400px;">
                 <span class="input-group-text bg-white border-end-0"><i class="bi bi-search text-muted"></i></span>
                 <input type="text" name="buscar" class="form-control border-start-0" placeholder="Buscar por nombre, apellido, email..." value="<?= esc($buscar) ?>">
-                <button type="submit" class="btn btn-primary fw-bold">Buscar</button>
+                <button type="submit" class="btn btn-dark fw-bold">Buscar</button>
                 <?php if($buscar): ?>
                     <a href="<?= base_url('admin/clientes') ?>" class="btn btn-outline-danger" title="Limpiar"><i class="bi bi-x-lg"></i></a>
                 <?php endif; ?>
@@ -70,7 +70,7 @@
                                 <td><?= date('d/m/Y', strtotime($c['fecha_alta'])) ?></td>
                                 <td class="text-center pe-4">
                                     <div class="btn-group btn-group-sm" role="group">
-                                        <a href="<?= base_url('admin/clientes/editar/' . $c['id']) ?>" class="btn btn-outline-primary" title="Editar Perfil">
+                                        <a href="<?= base_url('admin/clientes/editar/' . $c['id']) ?>" class="btn btn-outline-dark" title="Editar Perfil">
                                             <i class="bi bi-pencil-square"></i>
                                         </a>
                                         <a href="<?= base_url('admin/clientes/eliminar/' . $c['id']) ?>" 
@@ -90,7 +90,7 @@
         
         <?php if (!empty($pager)): ?>
             <div class="card-footer bg-white border-0 p-3 d-flex justify-content-center">
-                <?= $pager->links('default', 'default_full') ?>
+                <?= $pager->links('default', 'mi_paginador') ?>
             </div>
         <?php endif; ?>
     </div>

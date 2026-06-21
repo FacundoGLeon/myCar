@@ -63,7 +63,7 @@
                     </div>
                 </div>
 
-                <button type="submit" class="btn btn-primary w-100 fw-bold">Actualizar Datos</button>
+                <button type="submit" class="btn btn-dark w-100 fw-bold">Actualizar Datos</button>
                 <a href="<?= base_url('admin/clientes') ?>" class="btn btn-link w-100 mt-2 text-muted">Cancelar y Volver</a>
             </form>
         </div>

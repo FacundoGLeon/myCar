@@ -106,17 +106,17 @@ $ultimosMovimientos = $ultimosMovimientos ?? [];
                             <?php else: ?>
                                 <?php foreach($ultimosMovimientos as $mov): ?>
                                     <?php
-                                        // Asignar color al badge según el estado
-                                        $badge = 'bg-secondary';
-                                        if ($mov['estado'] == 'Pendiente') $badge = 'bg-warning text-dark';
-                                        if ($mov['estado'] == 'Alquilado') $badge = 'bg-primary';
+                                        // Nueva paleta de colores sobria para los estados
+                                        $badge = 'bg-light text-dark border';
+                                        if ($mov['estado'] == 'Pendiente') $badge = 'bg-secondary';
+                                        if ($mov['estado'] == 'Alquilado') $badge = 'bg-dark';
                                         if ($mov['estado'] == 'Devuelto')  $badge = 'bg-success';
                                         if ($mov['estado'] == 'Cancelado') $badge = 'bg-danger';
                                     ?>
                                     <tr>
                                         <td class="ps-4 text-muted small"><?= date('d/m/Y H:i', strtotime($mov['created_at'])) ?></td>
                                         <td class="fw-bold"><?= $mov['nombre'] ?> <?= $mov['apellido'] ?></td>
-                                        <td class="text-primary"><?= $mov['marca'] ?> <?= $mov['modelo'] ?></td>
+                                        <td class="fw-bold text-dark"><?= $mov['marca'] ?> <?= $mov['modelo'] ?></td>
                                         <td class="fw-bold text-success">$<?= number_format($mov['monto_total'], 2, ',', '.') ?></td>
                                         <td class="pe-4"><span class="badge <?= $badge ?>"><?= $mov['estado'] ?></span></td>
                                     </tr>

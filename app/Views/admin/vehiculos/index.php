@@ -14,14 +14,14 @@
             <div class="input-group shadow-sm" style="width: 350px;">
                 <span class="input-group-text bg-white border-end-0"><i class="bi bi-search text-muted"></i></span>
                 <input type="text" name="buscar" class="form-control border-start-0" placeholder="Buscar marca, modelo, categoría..." value="<?= esc($buscar) ?>">
-                <button type="submit" class="btn btn-primary fw-bold">Buscar</button>
+                <button type="submit" class="btn btn-dark fw-bold">Buscar</button>
                 <?php if($buscar): ?>
                     <a href="<?= base_url('admin/vehiculos') ?>" class="btn btn-outline-danger" title="Limpiar"><i class="bi bi-x-lg"></i></a>
                 <?php endif; ?>
             </div>
         </form>
 
-        <a href="<?= base_url('admin/vehiculos/nuevo') ?>" class="btn btn-success fw-bold shadow-sm">
+        <a href="<?= base_url('admin/vehiculos/nuevo') ?>" class="btn btn-dark fw-bold shadow-sm">
             <i class="bi bi-plus-circle me-1"></i> Nuevo
         </a>
     </div>
@@ -68,7 +68,7 @@
                                 <td class="fw-bold text-success">$<?= number_format($v['precio_dia'], 2) ?></td>
                                 <td class="text-center pe-4">
                                     <div class="btn-group btn-group-sm">
-                                        <a href="<?= base_url('admin/vehiculos/editar/' . $v['id']) ?>" class="btn btn-outline-primary"><i class="bi bi-pencil-square"></i></a>
+                                        <a href="<?= base_url('admin/vehiculos/editar/' . $v['id']) ?>" class="btn btn-outline-dark"><i class="bi bi-pencil-square"></i></a>
                                         <a href="<?= base_url('admin/vehiculos/eliminar/' . $v['id']) ?>" class="btn btn-outline-danger" onclick="return confirm('¿Seguro que deseas eliminar este vehículo?');"><i class="bi bi-trash"></i></a>
                                     </div>
                                 </td>
@@ -80,7 +80,7 @@
         </div>
         <?php if (!empty($pager)): ?>
             <div class="card-footer bg-white border-0 p-3 d-flex justify-content-center">
-                <?= $pager->links('default', 'default_full') ?>
+                <?= $pager->links('default', 'mi_paginador') ?>
             </div>
         <?php endif; ?>
     </div>

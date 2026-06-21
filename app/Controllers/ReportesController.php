@@ -33,7 +33,9 @@ class ReportesController extends BaseController
                                                ->join('clientes', 'clientes.id = alquileres.cliente_id')
                                                ->where('vehiculo_id', $vehiculoId)
                                                ->orderBy('fecha_desde', 'DESC')
-                                               ->findAll();
+                                               ->paginate(10); // Cambiamos findAll() por paginate(10)
+            
+            $data['pager'] = $alquilerModel->pager; // Pasamos el paginador a la vista
         }
 
         return view('admin/reportes/vehiculo', $data);
@@ -63,7 +65,9 @@ class ReportesController extends BaseController
                                                ->join('vehiculos', 'vehiculos.id = alquileres.vehiculo_id')
                                                ->where('cliente_id', $clienteId)
                                                ->orderBy('fecha_desde', 'DESC')
-                                               ->findAll();
+                                               ->paginate(10); // Cambiamos findAll() por paginate(10)
+            
+            $data['pager'] = $alquilerModel->pager; // Pasamos el paginador a la vista
         }
 
         return view('admin/reportes/cliente', $data);
