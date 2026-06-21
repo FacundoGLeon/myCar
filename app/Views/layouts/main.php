@@ -24,6 +24,21 @@
         .card-vehiculo:hover { transform: translateY(-5px); }
         .btn-mycar { background-color: var(--secondary-color); color: white; border: none; }
         .btn-mycar:hover { background-color: #c0392b; color: white; }
+
+        .form-control:focus, .form-select:focus {
+            border-color: #343a40 !important;
+            box-shadow: 0 0 0 0.25rem rgba(52, 58, 64, 0.25) !important;
+        }
+
+        .dropdown-item:hover, .dropdown-item:focus {
+            background-color: rgba(44, 62, 80, 0.1) !important; /* Fondo gris/azulado muy sutil */
+            color: var(--primary-color) !important;
+        }
+        
+        .dropdown-item.active, .dropdown-item:active {
+            background-color: var(--primary-color) !important; /* Azul marino/gris oscuro al hacer clic */
+            color: #ffffff !important;
+        }
     </style>
 </head>
 <body>
@@ -69,6 +84,11 @@
                                 
                                 <!-- NUEVO BOTÓN: MIS RESERVAS -->
                                 <?php if(session()->get('rol') == 'cliente'): ?>
+                                    <li>
+                                        <a class="dropdown-item fw-bold text-dark" href="<?= base_url('perfil') ?>">
+                                            <i class="bi bi-person-gear me-2"></i>Mi Perfil
+                                        </a>
+                                    </li>
                                     <li>
                                         <a class="dropdown-item fw-bold text-primary" href="<?= base_url('mis-reservas') ?>">
                                             <i class="bi bi-card-list me-2"></i>Mis Reservas

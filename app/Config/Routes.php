@@ -67,5 +67,9 @@ $routes->group('admin', ['filter' => 'adminauth'], static function ($routes) {
     $routes->post('reserva/guardar/(:num)', 'ReservaController::guardar/$1');
     $routes->get('mis-reservas', 'ReservaController::misReservas');
 
+    // Rutas de Perfil del Cliente
+    $routes->get('perfil', 'PerfilController::index');
+    $routes->post('perfil/actualizar', 'PerfilController::actualizar');
+
 
 
