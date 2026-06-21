@@ -25,6 +25,9 @@
             min-height: 100vh;
             background-color: var(--sidebar-bg);
             color: white;
+            /* Asegura que el sidebar siempre cubra la altura de la pantalla */
+            position: sticky;
+            top: 0; 
         }
         .sidebar .nav-link {
             color: #c2c7d0;
@@ -37,10 +40,22 @@
             background-color: var(--sidebar-hover);
             color: white;
         }
-        .main-content {
-            padding: 30px;
+
+        /* --- FIX PARA STICKY FOOTER EN EL ADMIN --- */
+        .wrapper {
+            display: flex;
+            min-height: 100vh;
+        }
+        .main-wrapper {
+            display: flex;
+            flex-direction: column;
             width: 100%;
         }
+        .main-content {
+            padding: 30px;
+            flex-grow: 1; /* Esto empuja el footer hacia abajo */
+        }
+
         .topbar {
             background-color: white;
             box-shadow: 0 2px 4px rgba(0,0,0,0.04);
@@ -52,7 +67,8 @@
             align-items: center;
         }
 
-        .form-control:focus, .form-select:focus {
+        /* FIX GLOBAL: Quitar sombras azules en inputs */
+        .form-control:focus, .form-select:focus, .page-link:focus, .btn:focus {
             border-color: #343a40 !important;
             box-shadow: 0 0 0 0.25rem rgba(52, 58, 64, 0.25) !important;
         }
@@ -60,7 +76,7 @@
 </head>
 <body>
 
-    <div class="d-flex">
+    <div class="wrapper">
         <!-- MENÚ LATERAL (SIDEBAR) -->
         <nav class="sidebar flex-column p-3" style="width: 260px;">
             <a href="<?= base_url('admin/dashboard') ?>" class="text-white text-decoration-none d-flex align-items-center mb-4 mt-2 ps-2">
@@ -105,7 +121,6 @@
                 <li class="nav-item mt-3 mb-1 text-warning small text-uppercase fw-bold ps-3">Reportes</li>
                 <li class="nav-item">
                     <a href="<?= base_url('admin/reportes/vehiculo') ?>" class="nav-link <?= current_url(true)->getSegment(3) == 'vehiculo' ? 'active' : '' ?>">
-                        <!-- CAMBIO DE ICONO AQUÍ -->
                         <i class="bi bi-file-earmark-text me-2"></i> Reporte Vehículo
                     </a>
                 </li>
@@ -132,38 +147,53 @@
             </div>
         </nav>
 
-        <!-- CONTENIDO PRINCIPAL -->
-        <main class="main-content">
-            
-            <!-- Barra Superior (Topbar) -->
-            <div class="topbar">
-                <h4 class="m-0 text-muted">Panel de Administración</h4>
-                <div class="text-end">
-                    <span class="fw-bold"><i class="bi bi-person-circle"></i> <?= session()->get('email') ?></span>
-                    <span class="badge bg-warning text-dark ms-2">Admin</span>
+        <!-- ENVOLTORIO DE COLUMNA PARA QUE EL FOOTER BAJE -->
+        <div class="main-wrapper">
+            <!-- CONTENIDO PRINCIPAL -->
+            <main class="main-content">
+                
+                <!-- Barra Superior (Topbar) -->
+                <div class="topbar">
+                    <h4 class="m-0 text-muted">Panel de Administración</h4>
+                    <div class="text-end">
+                        <span class="fw-bold"><i class="bi bi-person-circle"></i> <?= session()->get('email') ?></span>
+                        <span class="badge bg-warning text-dark ms-2">Admin</span>
+                    </div>
                 </div>
-            </div>
 
-            <!-- Zona de Mensajes Flash -->
-            <?php if(session()->getFlashdata('mensaje')): ?>
-                <div class="alert alert-success alert-dismissible fade show shadow-sm" role="alert">
-                    <i class="bi bi-check-circle-fill me-2"></i> <?= session()->getFlashdata('mensaje') ?>
-                    <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
+                <!-- Zona de Mensajes Flash -->
+                <?php if(session()->getFlashdata('mensaje')): ?>
+                    <div class="alert alert-success alert-dismissible fade show shadow-sm" role="alert">
+                        <i class="bi bi-check-circle-fill me-2"></i> <?= session()->getFlashdata('mensaje') ?>
+                        <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
+                    </div>
+                <?php endif; ?>
+
+                <?php if(session()->getFlashdata('error')): ?>
+                    <div class="alert alert-danger alert-dismissible fade show shadow-sm" role="alert">
+                        <i class="bi bi-exclamation-triangle-fill me-2"></i> <?= session()->getFlashdata('error') ?>
+                        <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
+                    </div>
+                <?php endif; ?>
+
+                <!-- Aquí se inyectan las vistas de cada sección -->
+                <?= $this->renderSection('content') ?>
+
+            </main>
+
+            <!-- PIE DE PÁGINA EJECUTIVO (ADMIN) -->
+            <footer class="bg-white border-top py-3 px-4 mt-auto">
+                <div class="d-flex justify-content-between align-items-center small">
+                    <div class="text-muted fw-bold">
+                        &copy; <?= date('Y') ?> MyCar Admin
+                    </div>
+                    <div class="text-muted">
+                        Versión 1.0.0 &middot; Sistema de Gestión de Alquileres
+                    </div>
                 </div>
-            <?php endif; ?>
-
-            <?php if(session()->getFlashdata('error')): ?>
-                <div class="alert alert-danger alert-dismissible fade show shadow-sm" role="alert">
-                    <i class="bi bi-exclamation-triangle-fill me-2"></i> <?= session()->getFlashdata('error') ?>
-                    <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
-                </div>
-            <?php endif; ?>
-
-            <!-- Aquí se inyectan las vistas de cada sección -->
-            <?= $this->renderSection('content') ?>
-
-        </main>
-    </div>
+            </footer>
+        </div> <!-- Fin main-wrapper -->
+    </div> <!-- Fin wrapper -->
 
     <!-- Bootstrap 5 JS -->
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>

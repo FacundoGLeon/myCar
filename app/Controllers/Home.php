@@ -63,4 +63,16 @@ class Home extends BaseController
 
         return view('home', $data);
     }
+
+    // =======================================================
+    // PÁGINA SOBRE NOSOTROS
+    // =======================================================
+    public function sobreNosotros()
+    {
+        $data = [
+            'titulo' => 'Sobre Nosotros - MyCar (TP2)'
+        ];
+
+        return view('sobre_nosotros', $data);
+    }
 }

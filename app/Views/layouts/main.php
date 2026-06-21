@@ -16,7 +16,21 @@
             --secondary-color: #e74c3c;
             --bg-color: #f8f9fa;
         }
-        body { background-color: var(--bg-color); font-family: 'Segoe UI', Arial, sans-serif; }
+        
+        /* Utilidad para forzar el Sticky Footer */
+        body { 
+            background-color: var(--bg-color); 
+            font-family: 'Segoe UI', Arial, sans-serif; 
+            display: flex;
+            flex-direction: column;
+            min-height: 100vh;
+        }
+
+        /* El main debe crecer para empujar el footer hacia abajo */
+        main {
+            flex-grow: 1;
+        }
+
         .navbar-custom { background-color: var(--primary-color); }
         .navbar-custom .navbar-brand, .navbar-custom .nav-link { color: #ffffff; }
         .navbar-custom .nav-link:hover { color: var(--secondary-color); }
@@ -25,19 +39,28 @@
         .btn-mycar { background-color: var(--secondary-color); color: white; border: none; }
         .btn-mycar:hover { background-color: #c0392b; color: white; }
 
-        .form-control:focus, .form-select:focus {
+        /* FIX: Quitar sombras azules en inputs */
+        .form-control:focus, .form-select:focus, .page-link:focus, .btn:focus {
             border-color: #343a40 !important;
             box-shadow: 0 0 0 0.25rem rgba(52, 58, 64, 0.25) !important;
         }
 
+        /* Estilos personalizados para el menú desplegable */
         .dropdown-item:hover, .dropdown-item:focus {
-            background-color: rgba(44, 62, 80, 0.1) !important; /* Fondo gris/azulado muy sutil */
+            background-color: rgba(44, 62, 80, 0.1) !important; 
             color: var(--primary-color) !important;
         }
-        
         .dropdown-item.active, .dropdown-item:active {
-            background-color: var(--primary-color) !important; /* Azul marino/gris oscuro al hacer clic */
+            background-color: var(--primary-color) !important; 
             color: #ffffff !important;
+        }
+
+        /* Enlaces del Footer */
+        .hover-link {
+            transition: color 0.3s ease;
+        }
+        .hover-link:hover { 
+            color: var(--secondary-color) !important; 
         }
     </style>
 </head>
@@ -45,7 +68,6 @@
 
     <nav class="navbar navbar-expand-lg navbar-custom shadow-sm mb-4">
         <div class="container">
-            <!-- El Logo hace de botón de Inicio -->
             <a class="navbar-brand fw-bold" href="<?= base_url() ?>">
                 <i class="bi bi-car-front-fill me-2"></i>MyCar
             </a>
@@ -54,17 +76,14 @@
             </button>
             <div class="collapse navbar-collapse" id="navbarNav">
                 <ul class="navbar-nav me-auto">
-                    <!-- Dejamos solo Catálogo -->
                     <li class="nav-item">
                         <a class="nav-link" href="<?= base_url('catalogo') ?>"><i class="bi bi-grid me-1"></i>Catálogo</a>
                     </li>
                 </ul>
                 
-                <!-- LÓGICA DINÁMICA DEL MENÚ DE USUARIO -->
                 <ul class="navbar-nav">
                     <?php if(session()->get('isLoggedIn')): ?>
                         
-                        <!-- Si es Administrador -->
                         <?php if(session()->get('rol') == 'admin'): ?>
                             <li class="nav-item me-2">
                                 <a class="nav-link text-warning fw-bold" href="<?= base_url('admin/dashboard') ?>">
@@ -73,7 +92,6 @@
                             </li>
                         <?php endif; ?>
 
-                        <!-- Menú Desplegable del Usuario -->
                         <li class="nav-item dropdown">
                             <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-bs-toggle="dropdown">
                                 <i class="bi bi-person-circle me-1"></i> Mi Cuenta
@@ -82,7 +100,6 @@
                                 <li><h6 class="dropdown-header text-muted"><?= session()->get('email') ?></h6></li>
                                 <li><hr class="dropdown-divider"></li>
                                 
-                                <!-- NUEVO BOTÓN: MIS RESERVAS -->
                                 <?php if(session()->get('rol') == 'cliente'): ?>
                                     <li>
                                         <a class="dropdown-item fw-bold text-dark" href="<?= base_url('perfil') ?>">
@@ -106,7 +123,6 @@
                         </li>
 
                     <?php else: ?>
-                        <!-- Si NO está logueado -->
                         <li class="nav-item">
                             <a class="nav-link" href="<?= base_url('login') ?>">Iniciar Sesión</a>
                         </li>
@@ -121,15 +137,15 @@
 
     <main class="container">
         <?php if(session()->getFlashdata('mensaje')): ?>
-            <div class="alert alert-success alert-dismissible fade show" role="alert">
-                <?= session()->getFlashdata('mensaje') ?>
+            <div class="alert alert-success alert-dismissible fade show shadow-sm" role="alert">
+                <i class="bi bi-check-circle-fill me-2"></i> <?= session()->getFlashdata('mensaje') ?>
                 <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
             </div>
         <?php endif; ?>
 
         <?php if(session()->getFlashdata('error')): ?>
-            <div class="alert alert-danger alert-dismissible fade show" role="alert">
-                <?= session()->getFlashdata('error') ?>
+            <div class="alert alert-danger alert-dismissible fade show shadow-sm" role="alert">
+                <i class="bi bi-exclamation-triangle-fill me-2"></i> <?= session()->getFlashdata('error') ?>
                 <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
             </div>
         <?php endif; ?>
@@ -137,9 +153,34 @@
         <?= $this->renderSection('content') ?>
     </main>
 
-    <footer class="text-center py-4 mt-5 text-muted">
-        <div class="container border-top pt-3">
-            <small>&copy; <?= date('Y') ?> MyCar - TP2 CodeIgniter. Todos los derechos reservados.</small>
+    <!-- PIE DE PÁGINA (FOOTER COMERCIAL) -->
+    <footer class="mt-auto py-5 border-top" style="background-color: var(--primary-color); color: #bdc3c7;">
+        <div class="container">
+            <div class="row">
+                <div class="col-md-4 mb-3">
+                    <h5 class="text-white fw-bold mb-3"><i class="bi bi-car-front-fill me-2 text-white"></i>MyCar</h5>
+                    <p class="small text-white-50">La plataforma líder en alquiler de vehículos deportivos y de lujo. Calidad, seguridad y pasión en cada kilómetro recorrido.</p>
+                </div>
+                <div class="col-md-4 mb-3 text-md-center">
+                    <h6 class="text-white fw-bold mb-3">Enlaces Útiles</h6>
+                    <ul class="list-unstyled">
+                        <li class="mb-2"><a href="<?= base_url('catalogo') ?>" class="text-decoration-none text-white-50 hover-link">Catálogo de Flota</a></li>
+                        <li class="mb-2"><a href="<?= base_url('sobre-nosotros') ?>" class="text-decoration-none text-white-50 hover-link"><i class="bi bi-info-circle me-1"></i> Sobre Nosotros (TP2)</a></li>
+                        <li><a href="#" class="text-decoration-none text-white-50 hover-link">Términos y Condiciones</a></li>
+                    </ul>
+                </div>
+                <div class="col-md-4 mb-3 text-md-end">
+                    <h6 class="text-white fw-bold mb-3">Síguenos</h6>
+                    <div class="d-flex justify-content-md-end gap-3 fs-5">
+                        <a href="#" class="text-white-50 hover-link"><i class="bi bi-instagram"></i></a>
+                        <a href="#" class="text-white-50 hover-link"><i class="bi bi-facebook"></i></a>
+                        <a href="#" class="text-white-50 hover-link"><i class="bi bi-twitter-x"></i></a>
+                    </div>
+                </div>
+            </div>
+            <div class="text-center pt-4 mt-4 border-top" style="border-color: rgba(255,255,255,0.1) !important;">
+                <p class="small text-white-50 mb-0">&copy; <?= date('Y') ?> MyCar. Todos los derechos reservados.</p>
+            </div>
         </div>
     </footer>
 
