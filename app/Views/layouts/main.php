@@ -137,7 +137,7 @@
             <div class="footer-nav mb-3">
                 <a href="<?= base_url('catalogo') ?>" class="footer-nav-link">Catálogo de Flota</a>
                 <span class="footer-nav-separator">•</span>
-                <a href="<?= base_url('sobre-nosotros') ?>" class="footer-nav-link">Sobre Nosotros (TP2)</a>
+                <a href="<?= base_url('sobre-nosotros') ?>" class="footer-nav-link">Sobre Nosotros</a>
                 <span class="footer-nav-separator">•</span>
                 <a href="#" class="footer-nav-link">Términos y Condiciones</a>
             </div>

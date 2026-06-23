@@ -203,7 +203,7 @@ class AdminController extends BaseController
     public function editar($id = null)
     {
         $vehiculoModel = new VehiculoModel();
-        $categoriaModel = new CategoriaModel();
+        // $categoriaModel = new CategoriaModel();
 
         // Buscamos el auto en la BD
         $vehiculo = $vehiculoModel->find($id);
@@ -215,7 +215,7 @@ class AdminController extends BaseController
         $data = [
             'titulo'     => 'Editar Vehículo - MyCar',
             'vehiculo'   => $vehiculo,
-            'categorias' => $categoriaModel->findAll()
+            // 'categorias' => $categoriaModel->findAll()
         ];
         
         return view('admin/vehiculos/editar', $data);
@@ -238,7 +238,7 @@ class AdminController extends BaseController
             'precio_dia'   => 'required|decimal',
             'kilometraje'  => 'required|numeric',
             'descripcion'  => 'required|min_length[10]',
-            'categoria_id' => 'required',
+            // 'categoria_id' => 'required',
             'imagen'       => 'is_image[imagen]|mime_in[imagen,image/jpg,image/jpeg,image/png]|max_size[imagen,2048]',
         ];
 
@@ -251,7 +251,7 @@ class AdminController extends BaseController
             'motor' => ['required' => 'El motor es obligatorio.'],
             'kilometraje' => ['required' => 'El kilometraje es obligatorio.', 'numeric' => 'Debe ser numérico.'],
             'descripcion' => ['required' => 'La descripción es obligatoria.', 'min_length' => 'Mínimo 10 caracteres.'],
-            'categoria_id' => ['required' => 'Debes seleccionar una categoría.'],
+            // 'categoria_id' => ['required' => 'Debes seleccionar una categoría.'],
             'precio_dia' => ['required' => 'El precio es obligatorio.', 'decimal' => 'Debe ser un número válido.'],
             'imagen' => [
                 'is_image' => 'El archivo seleccionado no es una imagen válida.',
@@ -272,7 +272,7 @@ class AdminController extends BaseController
             'motor'        => $this->request->getPost('motor'),
             'plazas'       => $this->request->getPost('plazas'),
             'precio_dia'   => $this->request->getPost('precio_dia'),
-            'categoria_id' => $this->request->getPost('categoria_id'),
+            // 'categoria_id' => $this->request->getPost('categoria_id'),
             'kilometraje'  => $this->request->getPost('kilometraje'),
             'descripcion'  => $this->request->getPost('descripcion')
         ];

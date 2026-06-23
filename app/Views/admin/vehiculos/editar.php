@@ -21,7 +21,7 @@ $v = $vehiculo ?? []; // Datos actuales del auto
                         <label class="form-label">Marca</label>
                         <input type="text" name="marca" 
                                class="form-control <?= session('errors.marca') ? 'is-invalid' : '' ?>" 
-                               value="<?= old('marca', $v['marca']) ?>">
+                               value="<?= old('marca', $v['marca']) ?>" readonly>
                         <?php if (session('errors.marca')): ?>
                             <div class="invalid-feedback d-block"><?= session('errors.marca') ?></div>
                         <?php endif; ?>
@@ -31,7 +31,7 @@ $v = $vehiculo ?? []; // Datos actuales del auto
                         <label class="form-label">Modelo</label>
                         <input type="text" name="modelo" 
                                class="form-control <?= session('errors.modelo') ? 'is-invalid' : '' ?>" 
-                               value="<?= old('modelo', $v['modelo']) ?>">
+                               value="<?= old('modelo', $v['modelo']) ?>" readonly>
                         <?php if (session('errors.modelo')): ?>
                             <div class="invalid-feedback d-block"><?= session('errors.modelo') ?></div>
                         <?php endif; ?>
@@ -43,7 +43,7 @@ $v = $vehiculo ?? []; // Datos actuales del auto
                         <label class="form-label">Año</label>
                         <input type="number" name="anio" 
                                class="form-control <?= session('errors.anio') ? 'is-invalid' : '' ?>" 
-                               value="<?= old('anio', $v['anio']) ?>">
+                               value="<?= old('anio', $v['anio']) ?>" readonly>
                         <?php if (session('errors.anio')): ?>
                             <div class="invalid-feedback d-block"><?= session('errors.anio') ?></div>
                         <?php endif; ?>
@@ -92,7 +92,7 @@ $v = $vehiculo ?? []; // Datos actuales del auto
                     </div>
                 </div>
 
-                <div class="mb-3">
+                <!-- <div class="mb-3">
                     <label class="form-label">Categoría</label>
                     <select name="categoria_id" class="form-select <?= session('errors.categoria_id') ? 'is-invalid' : '' ?>" required>
                         <option value="">Seleccione una categoría</option>
@@ -105,7 +105,7 @@ $v = $vehiculo ?? []; // Datos actuales del auto
                     <?php if (session('errors.categoria_id')): ?>
                         <div class="invalid-feedback d-block"><?= session('errors.categoria_id') ?></div>
                     <?php endif; ?>
-                </div>
+                </div> -->
 
                 <div class="mb-3">
                     <label class="form-label">Descripción Detallada</label>
@@ -125,7 +125,6 @@ $v = $vehiculo ?? []; // Datos actuales del auto
                         <?php endif; ?>
                         <div class="flex-grow-1">
                             <input type="file" name="imagen" class="form-control <?= session('errors.imagen') ? 'is-invalid' : '' ?>" accept="image/*">
-                            <!-- Nota aclaratoria porque la imagen no es obligatoria -->
                             <small class="text-muted">Deja este campo vacío si deseas conservar la imagen actual.</small>
                         </div>
                     </div>

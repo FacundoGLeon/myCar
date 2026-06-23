@@ -128,7 +128,7 @@
                 <div class="card border-0 shadow-sm rounded-4 h-100 text-center p-4 team-card"
                     style="border-top: 5px solid var(--secondary-color) !important;">
                     <div class="mb-3 mt-2">
-                        <img src="<?= base_url('public/assets/img/Maru.jpeg') ?>" class="rounded-circle shadow-sm"
+                        <img src="<?= base_url('public/assets/img/sobreNosotros/Maru.jpeg') ?>" class="rounded-circle shadow-sm"
                             style="width: 130px; height: 130px; object-fit: cover;" alt="María Pía Garcés Broncal">
                     </div>
 
@@ -144,7 +144,7 @@
                 <div class="card border-0 shadow-sm rounded-4 h-100 text-center p-4 team-card"
                     style="border-top: 5px solid var(--primary-color) !important;">
                     <div class="mb-3 mt-2">
-                        <img src="<?= base_url('public/assets/img/Facu.jpeg') ?>" class="rounded-circle shadow-sm"
+                        <img src="<?= base_url('public/assets/img/sobreNosotros/Facu.jpeg') ?>" class="rounded-circle shadow-sm"
                         style="width: 130px; height: 130px; object-fit: cover;" alt="Facundo Gabriel León">
                     </div>
                     <h4 class="fw-bold mb-1">Facundo Gabriel León</h4>
