@@ -91,17 +91,21 @@ class ClientesController extends BaseController
     {
         $clienteModel = new ClienteModel();
         $usuarioModel = new UsuarioModel();
+        $alquilerModel = new \App\Models\AlquilerModel();
         
+        // 1. Verificamos si existe
         $cliente = $clienteModel->find($id);
-        
         if (!$cliente) {
             return redirect()->to('/admin/clientes')->with('error', 'El cliente no existe.');
         }
 
-        // Primero borramos al cliente (baja lógica)
+        // 2. REGLA DE NEGOCIO EN EL MODELO: ¿Tiene autos en su poder o reservas pendientes?
+        if ($alquilerModel->checkClienteEnUso($id)) {
+            return redirect()->to('/admin/clientes')->with('error', '¡Alto! No puedes dar de baja a este cliente porque actualmente tiene un vehículo alquilado o reservas pendientes.');
+        }
+
+        // 3. Si pasó la validación, damos de baja lógicamente a las dos tablas
         $clienteModel->delete($id);
-        
-        // Luego borramos a su usuario asociado para que no pueda loguearse más
         $usuarioModel->delete($cliente['usuario_id']);
 
         return redirect()->to('/admin/clientes')->with('mensaje', 'Cliente dado de baja correctamente.');

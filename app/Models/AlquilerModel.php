@@ -110,4 +110,20 @@ class AlquilerModel extends Model
                     ->groupEnd()
                     ->first();
     }
+
+    // 9. Regla de Negocio: Verificar si un vehículo está en uso activo
+    public function checkVehiculoEnUso($vehiculoId)
+    {
+        return $this->where('vehiculo_id', $vehiculoId)
+                    ->whereIn('estado', ['Pendiente', 'Alquilado'])
+                    ->first();
+    }
+
+    // 10. Regla de Negocio: Verificar si un cliente tiene alquileres activos
+    public function checkClienteEnUso($clienteId)
+    {
+        return $this->where('cliente_id', $clienteId)
+                    ->whereIn('estado', ['Pendiente', 'Alquilado'])
+                    ->first();
+    }
 }

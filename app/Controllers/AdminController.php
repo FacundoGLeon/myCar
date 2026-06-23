@@ -142,14 +142,21 @@ class AdminController extends BaseController
     // =======================================================
     public function eliminar($id = null)
     {
-        $vehiculoModel = new VehiculoModel();
+        $vehiculoModel = new \App\Models\VehiculoModel();
+        $alquilerModel = new \App\Models\AlquilerModel();
 
+        // 1. Verificamos si el vehículo existe
         $vehiculo = $vehiculoModel->find($id);
-        
         if (!$vehiculo) {
             return redirect()->to('/admin/vehiculos')->with('error', 'El vehículo no existe o ya fue eliminado.');
         }
 
+        // 2. REGLA DE NEGOCIO EN EL MODELO: ¿Está alquilado o reservado?
+        if ($alquilerModel->checkVehiculoEnUso($id)) {
+            return redirect()->to('/admin/vehiculos')->with('error', '¡Error! No puedes eliminar este vehículo porque actualmente está alquilado o tiene una reserva pendiente.');
+        }
+
+        // 3. Si pasó la validación, procedemos con la baja lógica
         $vehiculoModel->delete($id);
 
         return redirect()->to('/admin/vehiculos')->with('mensaje', 'Vehículo eliminado correctamente.');
