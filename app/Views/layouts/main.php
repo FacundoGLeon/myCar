@@ -77,7 +77,7 @@
             <div class="collapse navbar-collapse" id="navbarNav">
                 <ul class="navbar-nav me-auto">
                     <li class="nav-item">
-                        <a class="nav-link" href="<?= base_url('catalogo') ?>"><i class="bi bi-grid me-1"></i>Catálogo</a>
+                        <a class="nav-link" href="<?= base_url('sobre-nosotros') ?>"><i class="bi bi-info-circle me-1"></i>Sobre Nosotros</a>
                     </li>
                 </ul>
                 
