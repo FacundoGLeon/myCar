@@ -56,3 +56,57 @@ main {
 .perfil-titulo {
     color: var(--primary-color) !important;
 }
+
+/* ==========================================
+   ESTILOS DE PIE DE PÁGINA (FOOTER CENTRAL PREMIUM)
+   ========================================== */
+.main-footer {
+    background: linear-gradient(180deg, #1a252f 0%, #111a24 100%);
+    color: #94a3b8;
+    border-top: 1px solid rgba(255, 255, 255, 0.05);
+}
+
+.max-width-600 {
+    max-width: 600px;
+}
+
+.footer-nav {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-wrap: wrap;
+    gap: 15px;
+}
+
+.footer-nav-link {
+    color: #94a3b8;
+    text-decoration: none;
+    font-weight: 500;
+    transition: color 0.3s ease, transform 0.3s ease;
+    display: inline-block;
+}
+
+.footer-nav-link:hover {
+    color: #ffffff !important;
+    transform: translateY(-2px);
+}
+
+.footer-nav-separator {
+    color: rgba(255, 255, 255, 0.15);
+    user-select: none;
+}
+
+.footer-bottom {
+    border-top: 1px solid rgba(255, 255, 255, 0.05);
+}
+
+@media (max-width: 575.98px) {
+    .footer-nav {
+        flex-direction: column;
+        gap: 10px;
+    }
+    .footer-nav-separator {
+        display: none;
+    }
+}
+
