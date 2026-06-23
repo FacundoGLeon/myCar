@@ -3,15 +3,15 @@
 <?= $this->section('content') ?>
 <?php $errores = session()->getFlashdata('errores'); ?>
 
-<?php 
+<?php
 $cliente = $cliente ?? [];
 $usuario = $usuario ?? [];
-$errores = session()->getFlashdata('errores'); 
+$errores = session()->getFlashdata('errores');
 ?>
 
 <div class="row justify-content-center py-5">
     <div class="col-md-8">
-        <h2 class="fw-bold mb-4" style="color: var(--primary-color);">
+        <h2 class="fw-bold mb-4 perfil-titulo">
             <i class="bi bi-person-gear me-2"></i>Mi Perfil
         </h2>
 
@@ -27,29 +27,36 @@ $errores = session()->getFlashdata('errores');
                     <div class="row g-3">
                         <div class="col-md-6">
                             <label class="form-label fw-bold text-muted">Nombre</label>
-                            <input type="text" class="form-control <?= isset($errores['nombre']) ? 'is-invalid' : '' ?>" name="nombre" value="<?= old('nombre', $cliente['nombre']) ?>">
-                            <?php if(isset($errores['nombre'])): ?>
+                            <input type="text" class="form-control <?= isset($errores['nombre']) ? 'is-invalid' : '' ?>"
+                                name="nombre" value="<?= old('nombre', $cliente['nombre']) ?>">
+                            <?php if (isset($errores['nombre'])): ?>
                                 <div class="invalid-feedback fw-bold"><?= $errores['nombre'] ?></div>
                             <?php endif; ?>
                         </div>
                         <div class="col-md-6">
                             <label class="form-label fw-bold text-muted">Apellido</label>
-                            <input type="text" class="form-control <?= isset($errores['apellido']) ? 'is-invalid' : '' ?>" name="apellido" value="<?= old('apellido', $cliente['apellido']) ?>">
-                            <?php if(isset($errores['apellido'])): ?>
+                            <input type="text"
+                                class="form-control <?= isset($errores['apellido']) ? 'is-invalid' : '' ?>"
+                                name="apellido" value="<?= old('apellido', $cliente['apellido']) ?>">
+                            <?php if (isset($errores['apellido'])): ?>
                                 <div class="invalid-feedback fw-bold"><?= $errores['apellido'] ?></div>
                             <?php endif; ?>
                         </div>
                         <div class="col-md-6">
                             <label class="form-label fw-bold text-muted">Teléfono</label>
-                            <input type="text" class="form-control <?= isset($errores['telefono']) ? 'is-invalid' : '' ?>" name="telefono" value="<?= old('telefono', $cliente['telefono']) ?>">
-                            <?php if(isset($errores['telefono'])): ?>
+                            <input type="text"
+                                class="form-control <?= isset($errores['telefono']) ? 'is-invalid' : '' ?>"
+                                name="telefono" value="<?= old('telefono', $cliente['telefono']) ?>">
+                            <?php if (isset($errores['telefono'])): ?>
                                 <div class="invalid-feedback fw-bold"><?= $errores['telefono'] ?></div>
                             <?php endif; ?>
                         </div>
                         <div class="col-md-6">
                             <label class="form-label fw-bold text-muted">Dirección Completa</label>
-                            <input type="text" class="form-control <?= isset($errores['direccion']) ? 'is-invalid' : '' ?>" name="direccion" value="<?= old('direccion', $cliente['direccion']) ?>">
-                            <?php if(isset($errores['direccion'])): ?>
+                            <input type="text"
+                                class="form-control <?= isset($errores['direccion']) ? 'is-invalid' : '' ?>"
+                                name="direccion" value="<?= old('direccion', $cliente['direccion']) ?>">
+                            <?php if (isset($errores['direccion'])): ?>
                                 <div class="invalid-feedback fw-bold"><?= $errores['direccion'] ?></div>
                             <?php endif; ?>
                         </div>
@@ -68,23 +75,28 @@ $errores = session()->getFlashdata('errores');
                         <input type="email" class="form-control bg-light" value="<?= $usuario['email'] ?>" readonly>
                         <div class="form-text">Tu correo electrónico de acceso no puede modificarse por seguridad.</div>
                     </div>
-                    
+
                     <hr class="text-muted">
-                    
-                    <p class="text-muted small mb-3"><i class="bi bi-info-circle me-1"></i> Si no deseas cambiar tu contraseña, deja estos campos vacíos.</p>
-                    
+
+                    <p class="text-muted small mb-3"><i class="bi bi-info-circle me-1"></i> Si no deseas cambiar tu
+                        contraseña, deja estos campos vacíos.</p>
+
                     <div class="row g-3">
                         <div class="col-md-6">
                             <label class="form-label fw-bold text-muted">Nueva Contraseña</label>
-                            <input type="password" class="form-control <?= isset($errores['password']) ? 'is-invalid' : '' ?>" name="password" placeholder="********">
-                            <?php if(isset($errores['password'])): ?>
+                            <input type="password"
+                                class="form-control <?= isset($errores['password']) ? 'is-invalid' : '' ?>"
+                                name="password" placeholder="********">
+                            <?php if (isset($errores['password'])): ?>
                                 <div class="invalid-feedback fw-bold"><?= $errores['password'] ?></div>
                             <?php endif; ?>
                         </div>
                         <div class="col-md-6">
                             <label class="form-label fw-bold text-muted">Confirmar Nueva Contraseña</label>
-                            <input type="password" class="form-control <?= isset($errores['password_confirm']) ? 'is-invalid' : '' ?>" name="password_confirm" placeholder="********">
-                            <?php if(isset($errores['password_confirm'])): ?>
+                            <input type="password"
+                                class="form-control <?= isset($errores['password_confirm']) ? 'is-invalid' : '' ?>"
+                                name="password_confirm" placeholder="********">
+                            <?php if (isset($errores['password_confirm'])): ?>
                                 <div class="invalid-feedback fw-bold"><?= $errores['password_confirm'] ?></div>
                             <?php endif; ?>
                         </div>
@@ -98,7 +110,7 @@ $errores = session()->getFlashdata('errores');
                     <i class="bi bi-save me-1"></i> Guardar Cambios
                 </button>
             </div>
-            
+
         </form>
     </div>
 </div>

@@ -9,60 +9,8 @@
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
     <!-- Iconos de Bootstrap -->
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.5/font/bootstrap-icons.css">
-
-    <style>
-        :root {
-            --primary-color: #2c3e50;
-            --secondary-color: #e74c3c;
-            --bg-color: #f8f9fa;
-        }
-        
-        /* Utilidad para forzar el Sticky Footer */
-        body { 
-            background-color: var(--bg-color); 
-            font-family: 'Segoe UI', Arial, sans-serif; 
-            display: flex;
-            flex-direction: column;
-            min-height: 100vh;
-        }
-
-        /* El main debe crecer para empujar el footer hacia abajo */
-        main {
-            flex-grow: 1;
-        }
-
-        .navbar-custom { background-color: var(--primary-color); }
-        .navbar-custom .navbar-brand, .navbar-custom .nav-link { color: #ffffff; }
-        .navbar-custom .nav-link:hover { color: var(--secondary-color); }
-        .card-vehiculo { border: none; border-radius: 12px; box-shadow: 0 4px 6px rgba(0,0,0,0.1); transition: transform 0.2s; }
-        .card-vehiculo:hover { transform: translateY(-5px); }
-        .btn-mycar { background-color: var(--secondary-color); color: white; border: none; }
-        .btn-mycar:hover { background-color: #c0392b; color: white; }
-
-        /* FIX: Quitar sombras azules en inputs */
-        .form-control:focus, .form-select:focus, .page-link:focus, .btn:focus {
-            border-color: #343a40 !important;
-            box-shadow: 0 0 0 0.25rem rgba(52, 58, 64, 0.25) !important;
-        }
-
-        /* Estilos personalizados para el menú desplegable */
-        .dropdown-item:hover, .dropdown-item:focus {
-            background-color: rgba(44, 62, 80, 0.1) !important; 
-            color: var(--primary-color) !important;
-        }
-        .dropdown-item.active, .dropdown-item:active {
-            background-color: var(--primary-color) !important; 
-            color: #ffffff !important;
-        }
-
-        /* Enlaces del Footer */
-        .hover-link {
-            transition: color 0.3s ease;
-        }
-        .hover-link:hover { 
-            color: var(--secondary-color) !important; 
-        }
-    </style>
+    <!-- Estilos Personalizados -->
+    <link rel="stylesheet" href="<?= base_url('public/assets/css/main.css') ?>">
 </head>
 <body>
 

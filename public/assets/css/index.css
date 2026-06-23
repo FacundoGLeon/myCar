@@ -1,0 +1,7 @@
+/* ==========================================
+   ESTILOS DE LA PÁGINA DE PERFIL (index.php)
+   ========================================== */
+
+.perfil-titulo {
+    color: var(--primary-color) !important;
+}
