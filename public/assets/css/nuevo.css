@@ -1,0 +1,55 @@
+/* ==========================================
+   ESTILOS DE LA PÁGINA DE NUEVA RESERVA (nuevo.php)
+   ========================================== */
+
+/* Ajustes para que el calendario se vea centrado y elegante */
+.flatpickr-calendar.inline {
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05) !important;
+    border: 1px solid #dee2e6;
+    border-radius: 12px;
+    margin: 0 auto;
+}
+
+/* Diseño para los días OCUPADOS (Tachados y con fondo tenue) */
+.flatpickr-day.flatpickr-disabled {
+    text-decoration: line-through !important;
+    color: #adb5bd !important;
+    background-color: #f8f9fa !important;
+    cursor: not-allowed !important;
+}
+
+/* Diseño para los días disponibles */
+.flatpickr-day:not(.flatpickr-disabled) {
+    font-weight: 500;
+    color: var(--primary-color);
+}
+
+/* Evitamos que el día actual ("hoy") se pinte raro si está disponible */
+.flatpickr-day.today {
+    border-color: var(--secondary-color) !important;
+}
+
+.flatpickr-day.today:hover,
+.flatpickr-day.today:focus {
+    background: #e9ecef;
+    border-color: var(--secondary-color) !important;
+}
+
+/* SOBRESCRIBIR EL AZUL POR DEFECTO DE FLATPICKR */
+.flatpickr-day.selected,
+.flatpickr-day.startRange,
+.flatpickr-day.endRange,
+.flatpickr-day.selected.inRange,
+.flatpickr-day.startRange.inRange,
+.flatpickr-day.endRange.inRange {
+    background: var(--primary-color) !important;
+    border-color: var(--primary-color) !important;
+    color: #ffffff !important;
+}
+
+/* Días intermedios de la selección (gris azulado claro) */
+.flatpickr-day.inRange {
+    background: #e2e8f0 !important;
+    border-color: #e2e8f0 !important;
+    box-shadow: -5px 0 0 #e2e8f0, 5px 0 0 #e2e8f0 !important;
+}
