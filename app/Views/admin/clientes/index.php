@@ -74,9 +74,9 @@
                                             <i class="bi bi-pencil-square"></i>
                                         </a>
                                         <a href="<?= base_url('admin/clientes/eliminar/' . $c['id']) ?>" 
-                                           class="btn btn-outline-danger" 
+                                           class="btn btn-outline-danger confirm-action" 
                                            title="Dar de Baja"
-                                           onclick="return confirm('¿Estás seguro de dar de baja al cliente <?= $c['nombre'] ?>?');">
+                                           data-confirm="¿Estás seguro de dar de baja al cliente <?= $c['nombre'] ?>?">
                                             <i class="bi bi-person-x"></i>
                                         </a>
                                     </div>

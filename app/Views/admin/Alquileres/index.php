@@ -92,14 +92,14 @@
                                             <form action="<?= base_url('admin/alquileres/accion/' . $alq['id']) ?>" method="POST" class="w-100">
                                                 <?= csrf_field() ?>
                                                 <input type="hidden" name="accion" value="confirmar">
-                                                <button type="submit" class="btn btn-sm btn-success w-100 fw-bold" onclick="return confirm('¿Confirmar esta reserva y pasar el auto a estado Alquilado?');">
+                                                <button type="submit" class="btn btn-sm btn-success w-100 fw-bold confirm-action" data-confirm="¿Confirmar esta reserva y pasar el auto a estado Alquilado?">
                                                     <i class="bi bi-check-circle me-1"></i> Aprobar
                                                 </button>
                                             </form>
                                             <form action="<?= base_url('admin/alquileres/accion/' . $alq['id']) ?>" method="POST" class="w-100">
                                                 <?= csrf_field() ?>
                                                 <input type="hidden" name="accion" value="cancelar">
-                                                <button type="submit" class="btn btn-sm btn-outline-danger w-100" onclick="return confirm('¿Seguro que deseas cancelar esta reserva?');">
+                                                <button type="submit" class="btn btn-sm btn-outline-danger w-100 confirm-action" data-confirm="¿Seguro que deseas cancelar esta reserva?">
                                                     <i class="bi bi-x-circle me-1"></i> Cancelar
                                                 </button>
                                             </form>
@@ -109,7 +109,7 @@
                                         <form action="<?= base_url('admin/alquileres/accion/' . $alq['id']) ?>" method="POST">
                                             <?= csrf_field() ?>
                                             <input type="hidden" name="accion" value="devolver">
-                                            <button type="submit" class="btn btn-sm btn-primary fw-bold" onclick="return confirm('¿Confirmar que el cliente devolvió el auto en condiciones?');">
+                                            <button type="submit" class="btn btn-sm btn-primary fw-bold confirm-action" data-confirm="¿Confirmar que el cliente devolvió el auto en condiciones?">
                                                 <i class="bi bi-arrow-return-left me-1"></i> Registrar Devolución
                                             </button>
                                         </form>

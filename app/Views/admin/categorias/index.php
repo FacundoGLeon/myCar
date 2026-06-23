@@ -45,9 +45,9 @@
                                             <i class="bi bi-pencil-square"></i>
                                         </a>
                                         <a href="<?= base_url('admin/categorias/eliminar/' . $cat['id']) ?>" 
-                                           class="btn btn-outline-danger" 
+                                           class="btn btn-outline-danger confirm-action" 
                                            title="Eliminar"
-                                           onclick="return confirm('¿Eliminar la categoría <?= $cat['nombre'] ?>? Los autos que la tengan asignada podrían quedar sin categoría.');">
+                                           data-confirm="¿Eliminar la categoría <?= $cat['nombre'] ?>? Los autos que la tengan asignada podrían quedar sin categoría.">
                                             <i class="bi bi-trash"></i>
                                         </a>
                                     </div>

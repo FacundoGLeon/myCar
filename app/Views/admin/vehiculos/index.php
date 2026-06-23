@@ -69,7 +69,7 @@
                                 <td class="text-center pe-4">
                                     <div class="btn-group btn-group-sm">
                                         <a href="<?= base_url('admin/vehiculos/editar/' . $v['id']) ?>" class="btn btn-outline-dark"><i class="bi bi-pencil-square"></i></a>
-                                        <a href="<?= base_url('admin/vehiculos/eliminar/' . $v['id']) ?>" class="btn btn-outline-danger" onclick="return confirm('¿Seguro que deseas eliminar este vehículo?');"><i class="bi bi-trash"></i></a>
+                                        <a href="<?= base_url('admin/vehiculos/eliminar/' . $v['id']) ?>" class="btn btn-outline-danger confirm-action" data-confirm="¿Seguro que deseas eliminar este vehículo?"><i class="bi bi-trash"></i></a>
                                     </div>
                                 </td>
                             </tr>
