@@ -23,10 +23,8 @@ class ReservaController extends BaseController
             return redirect()->to('/catalogo')->with('error', 'El vehículo seleccionado no existe.');
         }
 
-        // Buscamos todas las reservas activas
-        $reservasActivas = $alquilerModel->where('vehiculo_id', $id)
-                                         ->whereIn('estado', ['Pendiente', 'Alquilado'])
-                                         ->findAll();
+        // ¡Reemplazamos el Query Builder por nuestro método limpio!
+        $reservasActivas = $alquilerModel->getReservasActivasPorVehiculo($id);
         
         $fechasOcupadas = [];
         foreach ($reservasActivas as $res) {
@@ -47,66 +45,36 @@ class ReservaController extends BaseController
 
     public function guardar($id = null)
     {
-        if (!session()->get('isLoggedIn')) {
-            return redirect()->to('/login');
-        }
+        if (!session()->get('isLoggedIn')) return redirect()->to('/login');
 
         $vehiculoModel = new VehiculoModel();
         $alquilerModel = new AlquilerModel();
         $clienteModel  = new ClienteModel();
 
         $vehiculo = $vehiculoModel->find($id);
-
-        // ================================================================
-        // 🛡️ LÓGICA BLINDADA: Procesamos todo el texto 100% en PHP
-        // ================================================================
         $rangoCrudo = $this->request->getPost('fechas_rango');
 
-        if (empty($rangoCrudo)) {
-            return redirect()->back()->with('error', 'Por favor, selecciona las fechas en el calendario.');
-        }
+        if (empty($rangoCrudo)) return redirect()->back()->with('error', 'Por favor, selecciona las fechas.');
 
-        // 1. Normalizamos (Flatpickr usa " to " en inglés o " a " en español)
         $rangoCrudo = str_replace(' to ', ' a ', $rangoCrudo);
         $partes = explode(' a ', $rangoCrudo);
 
-        // 2. Extraemos las fechas y aseguramos que tengan solo 10 caracteres (YYYY-MM-DD)
         $fechaDesde = substr(trim($partes[0]), 0, 10);
         $fechaHasta = isset($partes[1]) ? substr(trim($partes[1]), 0, 10) : $fechaDesde;
 
-        // 3. Calculamos la cantidad de días estrictamente en el Servidor
         $diferencia = strtotime($fechaHasta) - strtotime($fechaDesde);
         $dias = max(1, round($diferencia / 86400) + 1);
 
-        // 4. Validación del pasado (Mostrando la fecha exacta si falla para poder depurar)
         $hoy = date('Y-m-d');
-        if ($fechaDesde < $hoy) {
-            return redirect()->back()->with('error', "Error del servidor: Tú enviaste ($fechaDesde), pero el servidor cree que HOY es ($hoy). Revisa el reloj de tu PC.");
-        }
+        if ($fechaDesde < $hoy) return redirect()->back()->with('error', "No puedes reservar en el pasado.");
 
-        // ================================================================
-        // CONTINÚA LA LÓGICA NORMAL
-        // ================================================================
-        
-        $superposicion = $alquilerModel->where('vehiculo_id', $vehiculo['id'])
-            ->whereIn('estado', ['Pendiente', 'Alquilado'])
-            ->groupStart()
-                ->where('fecha_desde <=', $fechaHasta)
-                ->where('fecha_hasta >=', $fechaDesde)
-            ->groupEnd()
-            ->first();
-
-        if ($superposicion) {
+        // ¡Verificación limpia utilizando el modelo!
+        if ($alquilerModel->verificarSuperposicion($vehiculo['id'], $fechaDesde, $fechaHasta)) {
             return redirect()->back()->with('error', 'El vehículo ya se encuentra reservado en esas fechas.');
         }
 
         $cliente = $clienteModel->where('usuario_id', session()->get('usuario_id'))->first();
-        if (!$cliente) {
-            return redirect()->to('/')->with('error', 'Error crítico: No se encontró tu perfil de cliente en la base de datos.');
-        }
-
-        // Calcular Monto Total en PHP (Para evitar manipulaciones del usuario)
-        $montoTotal = $vehiculo['precio_dia'] * $dias;
+        if (!$cliente) return redirect()->to('/')->with('error', 'Perfil de cliente no encontrado.');
 
         $datosAlquiler = [
             'vehiculo_id' => $vehiculo['id'],
@@ -115,20 +83,17 @@ class ReservaController extends BaseController
             'dias'        => $dias,
             'fecha_hasta' => $fechaHasta,
             'precio_dia'  => $vehiculo['precio_dia'],
-            'monto_total' => $montoTotal,
+            'monto_total' => $vehiculo['precio_dia'] * $dias,
             'estado'      => 'Pendiente'
         ];
 
         if ($alquilerModel->save($datosAlquiler)) {
-            return redirect()->to('/catalogo')->with('mensaje', '¡Reserva enviada con éxito! La agencia la revisará pronto.');
+            return redirect()->to('/catalogo')->with('mensaje', '¡Reserva enviada con éxito!');
         }
 
         return redirect()->back()->with('error', 'Ocurrió un problema al guardar en la Base de Datos.');
     }
 
-    // =======================================================
-    // HISTORIAL DEL CLIENTE (Mis Reservas)
-    // =======================================================
     public function misReservas()
     {
         if (!session()->get('isLoggedIn') || session()->get('rol') !== 'cliente') {
@@ -138,24 +103,15 @@ class ReservaController extends BaseController
         $alquilerModel = new AlquilerModel();
         $clienteModel  = new ClienteModel();
 
-        // 1. Buscamos quién es el cliente logueado
         $cliente = $clienteModel->where('usuario_id', session()->get('usuario_id'))->first();
 
-        if (!$cliente) {
-            return redirect()->to('/')->with('error', 'Error: Perfil de cliente no encontrado.');
-        }
-
-        // 2. Buscamos todas sus reservas uniéndolas con los datos del vehículo (AHORA CON PAGINACIÓN)
-        $reservas = $alquilerModel->select('alquileres.*, vehiculos.marca, vehiculos.modelo, vehiculos.imagen_url')
-                                  ->join('vehiculos', 'vehiculos.id = alquileres.vehiculo_id')
-                                  ->where('cliente_id', $cliente['id'])
-                                  ->orderBy('alquileres.created_at', 'DESC')
-                                  ->paginate(10); // Paginamos de a 10 registros por pantalla
+        if (!$cliente) return redirect()->to('/')->with('error', 'Perfil no encontrado.');
 
         $data = [
             'titulo'   => 'Mis Reservas - MyCar',
-            'reservas' => $reservas,
-            'pager'    => $alquilerModel->pager // Enviamos el paginador a la vista
+            // ¡Llamada limpia al método del Modelo!
+            'reservas' => $alquilerModel->getReservasPorCliente($cliente['id'])->paginate(10),
+            'pager'    => $alquilerModel->pager
         ];
 
         return view('reservas/mis_reservas', $data);

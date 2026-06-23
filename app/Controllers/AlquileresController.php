@@ -7,33 +7,19 @@ use App\Controllers\BaseController;
 
 class AlquileresController extends BaseController
 {
-    // =======================================================
-    // LISTADO DE ALQUILERES (Con Filtros)
-    // =======================================================
     public function index()
     {
         $alquilerModel = new AlquilerModel();
-        
-        // Empezamos a armar la consulta
-        $builder = $alquilerModel->select('alquileres.*, clientes.nombre, clientes.apellido, vehiculos.marca, vehiculos.modelo')
-                                 ->join('clientes', 'clientes.id = alquileres.cliente_id')
-                                 ->join('vehiculos', 'vehiculos.id = alquileres.vehiculo_id');
-
-        // Capturamos el filtro si existe
         $estadoFiltro = $this->request->getGet('estado');
-        if (!empty($estadoFiltro)) {
-            $builder->where('alquileres.estado', $estadoFiltro);
-        }
-
-        // Ordenamos y paginamos
-        $alquileres = $builder->orderBy('alquileres.created_at', 'DESC')
-                              ->paginate(10);
+        
+        // Código MVC perfecto:
+        $alquileres = $alquilerModel->getAlquileresDetallados($estadoFiltro)->paginate(10);
 
         $data = [
             'titulo'        => 'Gestión de Alquileres - Admin MyCar',
             'alquileres'    => $alquileres,
             'pager'         => $alquilerModel->pager,
-            'estado_filtro' => $estadoFiltro // Lo pasamos para que el select mantenga la opción elegida
+            'estado_filtro' => $estadoFiltro
         ];
 
         return view('admin/alquileres/index', $data);

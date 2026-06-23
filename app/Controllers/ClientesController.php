@@ -8,53 +8,30 @@ use App\Controllers\BaseController;
 
 class ClientesController extends BaseController
 {
-    // =======================================================
-    // LISTADO DE CLIENTES (Con Buscador)
-    // =======================================================
     public function index()
     {
         $clienteModel = new ClienteModel();
-        
-        $builder = $clienteModel->select('clientes.*, usuarios.email')
-                                ->join('usuarios', 'usuarios.id = clientes.usuario_id');
-
-        // Capturamos la palabra a buscar
         $buscar = $this->request->getGet('buscar');
         
-        if (!empty($buscar)) {
-            // Usamos groupStart para que los OR no rompan otras condiciones (como el deleted_at)
-            $builder->groupStart()
-                    ->like('clientes.nombre', $buscar)
-                    ->orLike('clientes.apellido', $buscar)
-                    ->orLike('clientes.telefono', $buscar)
-                    ->orLike('usuarios.email', $buscar)
-                    ->groupEnd();
-        }
-
-        $clientes = $builder->paginate(10);
+        // ¡Mira qué limpio queda esto ahora!
+        $clientes = $clienteModel->getClientesConEmail($buscar)->paginate(10);
 
         $data = [
             'titulo'   => 'Gestión de Clientes - Admin MyCar',
             'clientes' => $clientes,
             'pager'    => $clienteModel->pager,
-            'buscar'   => $buscar // Para mantener el texto en el input
+            'buscar'   => $buscar
         ];
 
         return view('admin/clientes/index', $data);
     }
 
-    // =======================================================
-    // FORMULARIO EDITAR CLIENTE
-    // =======================================================
     public function editar($id = null)
     {
         $clienteModel = new ClienteModel();
         
-        // Buscamos al cliente y también traemos su email
-        $cliente = $clienteModel->select('clientes.*, usuarios.email')
-                                ->join('usuarios', 'usuarios.id = clientes.usuario_id')
-                                ->where('clientes.id', $id)
-                                ->first();
+        // ¡Usamos nuestro método personalizado!
+        $cliente = $clienteModel->getClienteConEmail($id);
         
         if (!$cliente) {
             return redirect()->to('/admin/clientes')->with('error', 'El cliente no existe.');

@@ -18,22 +18,8 @@ class Home extends BaseController
 
         $categorias = $categoriaModel->findAll();
         
-        // 2. Armamos la consulta dinámica
-        $builder = $vehiculoModel->builder();
-        
-        if ($categoriaId) {
-            $builder->where('categoria_id', $categoriaId);
-        }
-
-        if (!empty($buscar)) {
-            // Buscamos por marca o modelo
-            $builder->groupStart()
-                    ->like('marca', $buscar)
-                    ->orLike('modelo', $buscar)
-                    ->groupEnd();
-        }
-
-        $vehiculos = $vehiculoModel->findAll();
+        // 2. Llamamos al método limpio del Modelo
+        $vehiculos = $vehiculoModel->getCatalogoFiltrado($categoriaId, $buscar);
 
         // 3. Agrupamos los vehículos por categoría
         $catalogo = [];
