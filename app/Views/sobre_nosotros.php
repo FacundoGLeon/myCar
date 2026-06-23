@@ -211,6 +211,8 @@
                         class="bi bi-bootstrap me-1"></i> Bootstrap 5</span>
                 <span class="badge bg-success-subtle text-success border border-success-subtle px-3 py-2"><i
                         class="bi bi-calendar-check me-1"></i> Flatpickr.js</span>
+                <span class="badge bg-warning-subtle text-warning-emphasis border border-warning-subtle px-3 py-2"><i
+                        class="bi bi-bell-fill me-1"></i> SweetAlert2</span>
             </div>
         </div>
     </div>
