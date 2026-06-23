@@ -11,7 +11,8 @@
     </div>
     <div class="col-md-6">
         <!-- BARRA DE FILTROS -->
-        <form action="<?= base_url('admin/alquileres') ?>" method="GET" class="d-flex justify-content-end bg-white p-3 rounded-3 shadow-sm">
+        <form action="<?= base_url('admin/alquileres') ?>" method="GET"
+            class="d-flex justify-content-end bg-white p-3 rounded-3 shadow-sm">
             <div class="d-flex align-items-center">
                 <label class="fw-bold me-2 text-nowrap">Filtrar por Estado:</label>
                 <select name="estado" class="form-select form-select-sm me-2" style="width: 150px;">
@@ -22,8 +23,9 @@
                     <option value="Cancelado" <?= $estado_filtro == 'Cancelado' ? 'selected' : '' ?>>Cancelados</option>
                 </select>
                 <button type="submit" class="btn btn-sm btn-dark">Filtrar</button>
-                <?php if($estado_filtro): ?>
-                    <a href="<?= base_url('admin/alquileres') ?>" class="btn btn-sm btn-outline-danger ms-2" title="Limpiar Filtro"><i class="bi bi-x-lg"></i></a>
+                <?php if ($estado_filtro): ?>
+                    <a href="<?= base_url('admin/alquileres') ?>" class="btn btn-sm btn-outline-danger ms-2"
+                        title="Limpiar Filtro"><i class="bi bi-x-lg"></i></a>
                 <?php endif; ?>
             </div>
         </form>
@@ -60,46 +62,58 @@
                                     <small class="text-muted"><?= date('d/m/Y H:i', strtotime($alq['created_at'])) ?></small>
                                 </td>
                                 <td>
-                                    <div class="fw-bold"><?= $alq['nombre'] ?> <?= $alq['apellido'] ?></div>
-                                    <small class="text-muted"><i class="bi bi-person-badge"></i> ID: <?= $alq['cliente_id'] ?></small>
+                                    <div class="fw-bold"><?= $alq['nombre'] ?>         <?= $alq['apellido'] ?></div>
+                                    <small class="text-muted"><i class="bi bi-person-badge"></i> ID:
+                                        <?= $alq['cliente_id'] ?></small>
                                 </td>
                                 <td>
-                                    <div class="fw-bold text-primary"><?= $alq['marca'] ?> <?= $alq['modelo'] ?></div>
+                                    <div class="fw-bold text-dark"><?= $alq['marca'] ?>         <?= $alq['modelo'] ?></div>
                                 </td>
                                 <td>
                                     <div style="font-size: 0.9rem;">
-                                        <i class="bi bi-calendar-event text-success"></i> <?= date('d/m/Y', strtotime($alq['fecha_desde'])) ?><br>
-                                        <i class="bi bi-calendar-event-fill text-danger"></i> <?= date('d/m/Y', strtotime($alq['fecha_hasta'])) ?>
+                                        <i class="bi bi-calendar-event text-success"></i>
+                                        <?= date('d/m/Y', strtotime($alq['fecha_desde'])) ?><br>
+                                        <i class="bi bi-calendar-event-fill text-danger"></i>
+                                        <?= date('d/m/Y', strtotime($alq['fecha_hasta'])) ?>
                                     </div>
                                     <span class="badge bg-light text-dark border mt-1"><?= $alq['dias'] ?> días</span>
                                 </td>
                                 <td>
                                     <?php
-                                        $badge = 'bg-secondary';
-                                        if ($alq['estado'] == 'Pendiente') $badge = 'bg-warning text-dark';
-                                        if ($alq['estado'] == 'Alquilado') $badge = 'bg-primary';
-                                        if ($alq['estado'] == 'Devuelto') $badge = 'bg-success';
-                                        if ($alq['estado'] == 'Cancelado') $badge = 'bg-danger';
+                                    $badge = 'bg-secondary';
+                                    if ($alq['estado'] == 'Pendiente')
+                                        $badge = 'bg-warning text-dark';
+                                    if ($alq['estado'] == 'Alquilado')
+                                        $badge = 'bg-primary';
+                                    if ($alq['estado'] == 'Devuelto')
+                                        $badge = 'bg-success';
+                                    if ($alq['estado'] == 'Cancelado')
+                                        $badge = 'bg-danger';
                                     ?>
                                     <span class="badge <?= $badge ?> px-2 py-1"><?= $alq['estado'] ?></span><br>
-                                    <small class="fw-bold text-success">$<?= number_format($alq['monto_total'], 2, ',', '.') ?></small>
+                                    <small
+                                        class="fw-bold text-success">$<?= number_format($alq['monto_total'], 2, ',', '.') ?></small>
                                 </td>
                                 <td class="text-center pe-4">
-                                    
+
                                     <!-- LÓGICA DE BOTONES SEGÚN EL ESTADO -->
                                     <?php if ($alq['estado'] == 'Pendiente'): ?>
                                         <div class="d-flex flex-column gap-1 align-items-center">
-                                            <form action="<?= base_url('admin/alquileres/accion/' . $alq['id']) ?>" method="POST" class="w-100">
+                                            <form action="<?= base_url('admin/alquileres/accion/' . $alq['id']) ?>" method="POST"
+                                                class="w-100">
                                                 <?= csrf_field() ?>
                                                 <input type="hidden" name="accion" value="confirmar">
-                                                <button type="submit" class="btn btn-sm btn-success w-100 fw-bold confirm-action" data-confirm="¿Confirmar esta reserva y pasar el auto a estado Alquilado?">
+                                                <button type="submit" class="btn btn-sm btn-success w-100 fw-bold confirm-action"
+                                                    data-confirm="¿Confirmar esta reserva y pasar el auto a estado Alquilado?">
                                                     <i class="bi bi-check-circle me-1"></i> Aprobar
                                                 </button>
                                             </form>
-                                            <form action="<?= base_url('admin/alquileres/accion/' . $alq['id']) ?>" method="POST" class="w-100">
+                                            <form action="<?= base_url('admin/alquileres/accion/' . $alq['id']) ?>" method="POST"
+                                                class="w-100">
                                                 <?= csrf_field() ?>
                                                 <input type="hidden" name="accion" value="cancelar">
-                                                <button type="submit" class="btn btn-sm btn-outline-danger w-100 confirm-action" data-confirm="¿Seguro que deseas cancelar esta reserva?">
+                                                <button type="submit" class="btn btn-sm btn-outline-danger w-100 confirm-action"
+                                                    data-confirm="¿Seguro que deseas cancelar esta reserva?">
                                                     <i class="bi bi-x-circle me-1"></i> Cancelar
                                                 </button>
                                             </form>
@@ -109,7 +123,8 @@
                                         <form action="<?= base_url('admin/alquileres/accion/' . $alq['id']) ?>" method="POST">
                                             <?= csrf_field() ?>
                                             <input type="hidden" name="accion" value="devolver">
-                                            <button type="submit" class="btn btn-sm btn-primary fw-bold confirm-action" data-confirm="¿Confirmar que el cliente devolvió el auto en condiciones?">
+                                            <button type="submit" class="btn btn-sm btn-primary fw-bold confirm-action"
+                                                data-confirm="¿Confirmar que el cliente devolvió el auto en condiciones?">
                                                 <i class="bi bi-arrow-return-left me-1"></i> Registrar Devolución
                                             </button>
                                         </form>
@@ -125,7 +140,7 @@
                 </tbody>
             </table>
         </div>
-        
+
         <?php if (!empty($pager)): ?>
             <div class="card-footer bg-white border-0 p-3 d-flex justify-content-center">
                 <?= $pager->links('default', 'mi_paginador') ?>
